@@ -7,25 +7,37 @@ import {
   TextInput,
   SafeAreaView,
   Alert
-} from 'react-native'; 
+} from 'react-native';
+import { Picker } from '@react-native-picker/picker';
 import { Octicons } from '@expo/vector-icons';
 import { useNavigation } from '@react-navigation/native';
-import { primaryColor, secondaryColor} from '../assets/colors/index';
+import { primaryColor, secondaryColor} from '../../../assets/colors/index';
 
-export default function App() {
+export default function Register() {
+  const [nome, setNome] = useState('');
   const [matricula, setMatricula] = useState('');
   const [senha, setSenha] = useState('');
-  const [mostrarSenha, setMostrarSenha] = useState(false);
+  const [mostrarSenha, setMostrarSenha] = useState(false); 
+  const [disciplina, setDisciplina] = useState('PDM');
   const navigation = useNavigation();
-  
+
   const handleSubmit = () => {
-    Alert.alert('Login realizado com sucesso!', `Matrícula: ${matricula}`);
+    Alert.alert('Cadastro realizado com sucesso!', `Nome: ${nome}\nMatrícula: ${matricula}\nDisciplina:${disciplina}`);
   };
+
   return (
     <SafeAreaView style={styles.container}>
       <View style={styles.form}>
-        <View>
-        <Text style={styles.titulo}>Login</Text>
+        <Text style={styles.titulo}>Crie sua conta</Text>
+  
+        <Text style={styles.label}>Nome</Text>
+        <TextInput
+          placeholder="Nome completo"
+          placeholderTextColor="#A3A3A3"
+          onChangeText={text => setNome(text)}
+          value={nome}
+          style={styles.inputs}
+        />
   
         <Text style={styles.label}>Matrícula</Text>
         <TextInput
@@ -45,7 +57,8 @@ export default function App() {
             placeholderTextColor="#A3A3A3"
             onChangeText={text => setSenha(text)}
             value={senha}
-            style={{
+            style={{ 
+              backgroundColor: secondaryColor,
               width: "80%"
             }}
             secureTextEntry={!mostrarSenha}
@@ -59,24 +72,35 @@ export default function App() {
           </TouchableOpacity>
         </View>
   
-        <TouchableOpacity 
-          onPress={() => navigation.navigate("Cadastro")}
-          style={{alignSelf:"center"}}
+        <Text style={styles.label}>Disciplina</Text>
+        <View style={[styles.inputs, {padding:0}]}>
+        <Picker
+          selectedValue={disciplina}
+          onValueChange={(item) => setDisciplina(item)}
+          prompt="Disciplinas disponíveis:"
+          mode="dropdown"
+          style={{border: "none", outline: "none", background: "none"}}
         >
-          <Text style={styles.linkLogin}>Esqueci minha senha</Text>
-        </TouchableOpacity>
+          <Picker.Item label="PDM" value="PDM" />
+          <Picker.Item label="DAW II" value="DAW II" />
+          <Picker.Item label="Estrutura de Dados" value="ED" />
+          <Picker.Item label="Física" value="Física" />
+          <Picker.Item label="Matemática" value="Matemática" />
+        </Picker>
+        </View>
   
         <TouchableOpacity 
           onPress={handleSubmit}
           style={styles.botao}
         >
-          <Text style={styles.botao.texto}>Login</Text>
+          <Text style={styles.botao.texto}>Sign up</Text>
         </TouchableOpacity>
-        </View>
-        
-        <TouchableOpacity style={{alignSelf: "center", flexDirection: "row"}}
-          onPress={() => navigation.navigate("Cadastro")}>
-          <Text>Já tem uma conta? </Text><Text style={{fontWeight: "bold"}}>Sign up</Text>
+  
+        <TouchableOpacity 
+          onPress={() => navigation.navigate("Login")}
+          style={{alignSelf:"center"}}
+        >
+          <Text style={styles.linkLogin}>Already have an account</Text>
         </TouchableOpacity>
       </View>
     </SafeAreaView>
@@ -86,13 +110,12 @@ export default function App() {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: secondaryColor,
+    backgroundColor: secondaryColor
   },
   form: {
     width: '100%',
     height: '100%',
     padding: 45,
-    justifyContent: "space-between"
   },
   titulo: {
     fontSize: 20,
@@ -109,7 +132,7 @@ const styles = StyleSheet.create({
     borderColor: '#dcdcdc',
     borderRadius: 12,
     padding: 15,
-    marginBottom: 20
+    marginBottom: 20,
   },
   senha: {
     flexDirection: "row",
@@ -119,7 +142,7 @@ const styles = StyleSheet.create({
   },
   botao: {
     width: "100%",
-    backgroundColor: "#212226",
+    backgroundColor: primaryColor,
     alignItems: "center",
     borderRadius: 12,
     padding: 15,
@@ -130,7 +153,6 @@ const styles = StyleSheet.create({
     },
   },
   linkLogin: {
-    textDecorationLine: "underline",
-    marginBottom: 25
+    textDecorationLine: "underline"
   }
 });

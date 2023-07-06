@@ -7,12 +7,12 @@ import {
   StyleSheet,
   ImageBackground,
 } from 'react-native';
-import ImageAvatar from '../assets/img/AvatarInicio.png';
-import Background from '../assets/img/BackgroundInicio.png';
+import ImageAvatar from '../../../assets/img/AvatarInicio.png';
+import Background from '../../../assets/img/BackgroundInicio.png';
 import { useNavigation } from '@react-navigation/native';
-import { primaryColor } from '../assets/colors/index';
+import { primaryColor } from '../../../assets/colors/index';
 
-export default function Inicio() {
+export default function Start() {
   const navigation = useNavigation();
 
   return (
