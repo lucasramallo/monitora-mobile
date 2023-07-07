@@ -3,6 +3,7 @@ import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import Inicio from '../screens/Start/Start';
 import Cadastro from '../screens/Register/Register';
 import Login from '../screens/Login/Login'; 
+import { Home } from '../screens/Home/Home';
 
 const Stack = createNativeStackNavigator();
 
@@ -12,6 +13,7 @@ export default function Router() {
         <Stack.Screen name="Inicio" options={{headerShown: false}} component={Inicio} />
         <Stack.Screen name="Login" options={{headerShown: false}} component={Login} />
         <Stack.Screen name="Cadastro" options={{headerShown: false}} component={Cadastro} />
+        <Stack.Screen name="Home" options={{headerShown: false}} component={Home} />
     </Stack.Navigator>
   );
 }

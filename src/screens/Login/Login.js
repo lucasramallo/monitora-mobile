@@ -11,73 +11,81 @@ import {
 import { Octicons } from '@expo/vector-icons';
 import { useNavigation } from '@react-navigation/native';
 import { primaryColor, secondaryColor} from '../../../assets/colors/index'
+import { useDispatch } from 'react-redux'
+import { logar } from '../../redux/user/slice';
 
 export default function Login() {
   const [matricula, setMatricula] = useState('');
   const [senha, setSenha] = useState('');
   const [mostrarSenha, setMostrarSenha] = useState(false);
   const navigation = useNavigation();
-  
+
+  const dispatch = useDispatch();
+
   const handleSubmit = () => {
-    Alert.alert('Login realizado com sucesso!', `Matrícula: ${matricula}`);
+    dispatch(logar(matricula))
+
+    navigation.navigate("Home")
+    // Alert.alert('Login realizado com sucesso!', `Matrícula: ${matricula}`);
   };
   return (
     <SafeAreaView style={styles.container}>
       <View style={styles.form}>
         <View>
-        <Text style={styles.titulo}>Login</Text>
-  
-        <Text style={styles.label}>Matrícula</Text>
-        <TextInput
-          placeholder="Ex.: 202019600020"
-          placeholderTextColor="#A3A3A3"
-          onChangeText={text => setMatricula(text)}
-          value={matricula}
-          keyboardType="numeric"
-          style={styles.inputs}
-        />
-  
-        <Text style={styles.label}>Senha</Text>
-        <View
-          style={[styles.senha, styles.inputs]}>
+          <Text style={styles.titulo}>Login</Text>
+    
+          <Text style={styles.label}>Matrícula</Text>
           <TextInput
-            placeholder="Senha"
+            placeholder="Ex.: 202019600020"
             placeholderTextColor="#A3A3A3"
-            onChangeText={text => setSenha(text)}
-            value={senha}
-            style={{
-              width: "80%"
-            }}
-            secureTextEntry={!mostrarSenha}
+            onChangeText={text => setMatricula(text)}
+            value={matricula}
+            keyboardType="numeric"
+            style={styles.inputs}
           />
-          <TouchableOpacity onPress={() => setMostrarSenha(!mostrarSenha)}>
-            <Octicons 
-              name={mostrarSenha && "eye-closed" || "eye"} 
-              size={18} 
-              color="black" 
-              styles={{margin: 15}}/>
+    
+          <Text style={styles.label}>Senha</Text>
+          <View
+            style={[styles.senha, styles.inputs]}>
+            <TextInput
+              placeholder="Senha"
+              placeholderTextColor="#A3A3A3"
+              onChangeText={text => setSenha(text)}
+              value={senha}
+              style={{
+                width: "80%"
+              }}
+              secureTextEntry={!mostrarSenha}
+            />
+            <TouchableOpacity onPress={() => setMostrarSenha(!mostrarSenha)}>
+              <Octicons 
+                name={mostrarSenha && "eye-closed" || "eye"} 
+                size={18} 
+                color="black" 
+                styles={{margin: 15}}/>
+            </TouchableOpacity>
+          </View>
+    
+          <TouchableOpacity 
+            onPress={() => navigation.navigate("Cadastro")}
+            style={{alignSelf:"center"}}
+          >
+            <Text style={styles.linkLogin}>Esqueci minha senha</Text>
+          </TouchableOpacity>
+    
+          <TouchableOpacity 
+            onPress={handleSubmit}
+            style={styles.botao}
+          >
+            <Text style={styles.botao.texto}>Login</Text>
           </TouchableOpacity>
         </View>
-  
-        <TouchableOpacity 
-          onPress={() => navigation.navigate("Cadastro")}
-          style={{alignSelf:"center"}}
-        >
-          <Text style={styles.linkLogin}>Esqueci minha senha</Text>
-        </TouchableOpacity>
-  
-        <TouchableOpacity 
-          onPress={handleSubmit}
-          style={styles.botao}
-        >
-          <Text style={styles.botao.texto}>Login</Text>
-        </TouchableOpacity>
-        </View>
-        
+
         <TouchableOpacity style={{alignSelf: "center", flexDirection: "row"}}
           onPress={() => navigation.navigate("Cadastro")}>
           <Text>Já tem uma conta? </Text><Text style={{fontWeight: "bold"}}>Sign up</Text>
         </TouchableOpacity>
+
       </View>
     </SafeAreaView>
   );
