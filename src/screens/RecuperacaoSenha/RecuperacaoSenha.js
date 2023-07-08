@@ -1,6 +1,5 @@
 import React, { useState } from 'react';
 import { StyleSheet, TextInput, View, TouchableOpacity, Text, Alert } from 'react-native';
-import { primaryColor, secondaryColor} from '../assets/colors/index';
 
 export default function RecuperacaoSenha(){
   const [mensagem, setMensagem] = useState('Digite o endereço de email previamente cadastrado por você. Enviaremos um email com o código de autenticação.');
@@ -63,7 +62,7 @@ const styles = StyleSheet.create({
     marginVertical: 45
   },
   input: {
-    backgroundColor: secondaryColor,
+    backgroundColor: "#fff",
     borderWidth: 1,
     borderColor: '#dcdcdc',
     borderRadius: 12,
