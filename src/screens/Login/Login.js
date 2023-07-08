@@ -67,7 +67,7 @@ export default function Login() {
           </View>
     
           <TouchableOpacity 
-            onPress={() => navigation.navigate("Cadastro")}
+            onPress={() => navigation.navigate("RecuperacaoSenha")}
             style={{alignSelf:"center"}}
           >
             <Text style={styles.linkLogin}>Esqueci minha senha</Text>
