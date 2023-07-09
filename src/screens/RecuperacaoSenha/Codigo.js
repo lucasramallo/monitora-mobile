@@ -1,16 +1,40 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import { StyleSheet, SafeAreaView, TextInput, View, TouchableOpacity, Text, Alert } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
 import { Ionicons } from '@expo/vector-icons';
+import SmoothPinCodeInput from 'react-native-smooth-pincode-input';
 
 export default function RecuperacaoSenha(){
-  const [mensagem, setMensagem] = useState('Digite o endereço de email previamente cadastrado por você. Enviaremos um email com o código de autenticação.');
   const emailFornecido = 'raykkoner@gmail.com'; // E-mail fornecido
-  const [contagem, setContagem] = useState(20);
-  const [codigo, setCodigo] = useState([]);
-  const navigation = useNavigation();
+  const codigoGerado = '12345';
+  const [contagem, setContagem] = useState(20); // Segundos de intervalo para reenviar
+  const [codigo, setCodigo] = useState(''); // Código digitado
+  const [reenviar, setReenviar] = useState(false); // Permite reenviar o código
+  const navigation = useNavigation(); 
+  const codeInputRef = useRef();
 
-  const envia = () => 0;
+  // Ação quando o código é completamente digitado
+  const testaCodigo = (code) => {
+    // Verifica se o código está correto
+    if(code == codigoGerado){
+      Alert.alert("Autenticado!")
+    } else {
+      codeInputRef.current.shake();
+    }
+  };
+  
+  // Contagem de intervalo para reenviar código
+  useEffect(() => {
+    let contar = setInterval(function () {
+      if(contagem > 0){
+        setContagem(contagem-1);
+      } else {
+        setReenviar(true);
+        clearInterval(contar);
+      }
+    }, 1000);
+    return () => clearInterval(contar);
+  }, [contagem]);
   
   return (
     <SafeAreaView style={styles.container}>
@@ -22,62 +46,46 @@ export default function RecuperacaoSenha(){
       <Text style={styles.titulo}>Insira o código</Text>
       <View style={styles.viewMensagem}>
         <Text style={styles.mensagem}>
-          Enviamos um código de altenticação ao endereço de e-mail: {emailFornecido}. Por favor verifique sua caixa de entrada e sua caixa de spam.
+          Enviamos um código de altenticação ao endereço de e-mail: <Text style={{fontWeight: "800", color: "#000"}}>{emailFornecido}</Text>. Por favor verifique sua caixa de entrada e sua caixa de spam.
         </Text>
       </View>
       
-      <View style={{ flexDirection: "row", justifyContent: "space-between" }}>
-        <TextInput
-          selectionColor="black"
-          style={styles.input}
-          value={codigo[0] || ""}
-          keyboardType="numeric"
-          maxLength={1}
-          onChangeText={n => setCodigo([n, ...codigo.slice(1)])}
-        />
-        <TextInput
-          selectionColor="black"
-          style={styles.input}
-          value={codigo[1] || ""}
-          keyboardType="numeric"
-          maxLength={1}
-          onChangeText={n => setCodigo([codigo[0], n, ...codigo.slice(2)])}
-        />
-        <TextInput
-          selectionColor="black"
-          style={styles.input}
-          value={codigo[2] || ""}
-          keyboardType="numeric"
-          maxLength={1}
-          onChangeText={n => setCodigo([...codigo.slice(0, 2), n, ...codigo.slice(3)])}
-        />
-        <TextInput
-          selectionColor="black"
-          style={styles.input}
-          value={codigo[3] || ""}
-          keyboardType="numeric"
-          maxLength={1}
-          onChangeText={n => setCodigo([...codigo.slice(0, 3), n, ...codigo.slice(4)])}
-        />
-        <TextInput
-          selectionColor="black"
-          style={styles.input}
-          value={codigo[4] || ""}
-          keyboardType="numeric"
-          maxLength={1}
-          onChangeText={n => setCodigo([...codigo.slice(0, 4), n, ...codigo.slice(5)])}
-        />
-      </View>
+      <SmoothPinCodeInput
+            ref={codeInputRef}
+            cellStyle={{
+              borderWidth: 1,
+              borderColor: 'gray',
+              borderRadius: 12,
+            }}
+            textStyle={{
+              color: "black",
+              fontSize: 25
+            }}
+            cellStyleFocused={{
+              borderColor: 'black',
+            }}
+            codeLength={5}
+            cellSize={60}
+            value={codigo}
+            onTextChange={code => setCodigo( code)}
+            onFulfill={testaCodigo}
+            />
       
-      <TouchableOpacity style={styles.botao}>
-        <Text style={styles.botao.texto}>Re-enviar</Text>
+      
+      <TouchableOpacity 
+      disabled={!reenviar} 
+      style={{ backgroundColor: reenviar && "#212226" || "#aaa", width: "100%", alignItems: "center", borderRadius: 12, padding: 15, marginTop: 80 }}
+      onPress={() => {
+        setContagem(20);
+        setReenviar(false);
+      }}
+      >
+        <Text style={styles.botaoTexto}>Reenviar</Text>
       </TouchableOpacity>
       </View>
 
-        <TouchableOpacity style={{alignSelf: "center", flexDirection: "row"}}
-          onPress={() => navigation.navigate("Login")}>
-          <Text>Não chegou? Re-envie o código em </Text><Text style={{fontWeight: "bold"}}>{contagem}s</Text>
-        </TouchableOpacity>
+        <Text style={{alignSelf: "center", flexDirection: "row"}}>Não chegou? Re-envie o código{!reenviar && <> em <Text style={{fontWeight: "bold"}}>{contagem}s</Text></>}.
+        </Text>
     </SafeAreaView>
   )
 }
@@ -106,39 +114,14 @@ const styles = StyleSheet.create({
     fontSize: 20,
     marginVertical: "20%",
   },
-  input: {
-    backgroundColor: "#fff",
-    borderWidth: 1,
-    borderColor: '#dcdcdc',
-    borderRadius: 12,
-    padding: 15,
-    marginTop: 20,
-    width: "18%",
-    textAlign: "center"
-  },
-  atalho: {
-    padding: 3,
-    margin: 5,
-    borderWidth: 0.5,
-    borderColor: "black",
-    borderRadius: 12
-  },
-  botao: {
-    width: "100%",
-    backgroundColor: "#212226",
-    alignItems: "center",
-    borderRadius: 12,
-    padding: 15,
-    marginTop: 45,
-    texto: {
-      color: "white",
-      fontWeight: "bold",
-    },
-  },
   viewMensagem: {
-    marginVertical: 5,
+    marginBottom: "10%",
   },
   mensagem: {
     color: "#333"
-  }
+  },
+  botaoTexto: {
+    color: "white",
+    fontWeight: "bold",
+  },
 });
