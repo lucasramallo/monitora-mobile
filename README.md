@@ -20,7 +20,7 @@ npm run ios
 # Caso esteja usando um dispositivo físico
 expo start
 ```
-
+ 
 ---
 
 ## Links ↗
