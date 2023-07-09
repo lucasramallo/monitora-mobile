@@ -23,7 +23,7 @@ export default function Start() {
       <View style={{ flex: 1, padding: 35 }}>
         <Image source={ImageAvatar} style={{ marginTop: '25%' }} />
         <View style={styles.conteudo}>
-          <Text style={styles.titulo}>Seja bem-vindo ao Monitóra App</Text>
+          <Text style={styles.titulo}>Seja bem-vindo ao Monitora App</Text>
           <Text style={styles.subTitulo}>
             Gerencie sua monitoria, de forma simples, em um só lugar
           </Text>
