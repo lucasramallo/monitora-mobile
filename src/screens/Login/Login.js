@@ -38,6 +38,7 @@ export default function Login() {
           <TextInput
             placeholder="Ex.: 202019600020"
             placeholderTextColor="#A3A3A3"
+            selectionColor="black"
             onChangeText={text => setMatricula(text)}
             value={matricula}
             keyboardType="numeric"
@@ -50,6 +51,7 @@ export default function Login() {
             <TextInput
               placeholder="Senha"
               placeholderTextColor="#A3A3A3"
+              selectionColor="black"
               onChangeText={text => setSenha(text)}
               value={senha}
               style={{
