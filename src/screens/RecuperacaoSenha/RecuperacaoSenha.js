@@ -13,7 +13,7 @@ export default function RecuperacaoSenha(){
   const envia = () => 0;
   
   return (
-    <View style={styles.tela}>
+    <View style={styles.container}>
       <Text style={styles.titulo}>Recuperação de Senha</Text>
       <View style={styles.viewMensagem}>
         <Text style={styles.mensagem}>
@@ -26,16 +26,18 @@ export default function RecuperacaoSenha(){
         selectionColor="black"
         style={styles.input}
         value={email}
-        onChangeText={text => setEmail(text)}/>
+        onChangeText={text => setEmail(text)}
+      />
       
-      {(!email.includes('@') && email.length > 0) &&
-        <TouchableOpacity 
-          style={styles.atalho}
-          onPress={adicionaDominio}>
-          <Text>
-            @academico.ifpb.edu.br
-          </Text>
-        </TouchableOpacity>
+      {
+        (!email.includes('@') && email.length > 0) &&
+          <TouchableOpacity 
+            style={styles.atalho}
+            onPress={adicionaDominio}>
+            <Text>
+              @academico.ifpb.edu.br
+            </Text>
+          </TouchableOpacity>
       }
       
       <TouchableOpacity style={styles.botao}>
@@ -49,7 +51,7 @@ const styles = StyleSheet.create({
   back: {
     alignSelf: "left"
   },
-  tela: {
+  container: {
     flex: 1,
     alignItems: "center",
     padding: 45,
@@ -59,7 +61,8 @@ const styles = StyleSheet.create({
     textAlign: "center",
     fontWeight: "bold",
     fontSize: 20,
-    marginVertical: 45
+    marginTop: '40%',
+    marginBottom: 10
   },
   input: {
     backgroundColor: "#fff",
@@ -90,7 +93,7 @@ const styles = StyleSheet.create({
     },
   },
   viewMensagem: {
-    marginVertical: 25,
+    marginVertical: 5,
   },
   mensagem: {
     color: "#333"

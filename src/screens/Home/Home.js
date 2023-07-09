@@ -4,7 +4,7 @@ import { useSelector } from 'react-redux';
 
 export function Home() {
 
-  const { currentUser } = useSelector((state) => state.userReducer); // Pega as informações do usuário corrente no etado global
+  const { currentUser } = useSelector((state) => state.userReducer); // Pega as informações do usuário corrente no estado global
 
   return (
     <View style={styles.container}>
@@ -12,7 +12,6 @@ export function Home() {
     </View>
   );
 }
-
 
 const styles = StyleSheet.create({
     container: {
