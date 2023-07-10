@@ -1,27 +1,34 @@
 import React, { useState } from 'react';
-import { StyleSheet, TextInput, View, TouchableOpacity, Text, Alert } from 'react-native';
+import { StyleSheet, SafeAreaView, TextInput, View, TouchableOpacity, Text, Alert } from 'react-native';
+import { useNavigation } from '@react-navigation/native';
+import { Ionicons } from '@expo/vector-icons';
 
 export default function RecuperacaoSenha(){
   const [mensagem, setMensagem] = useState('Digite o endereço de email previamente cadastrado por você. Enviaremos um email com o código de autenticação.');
   const [email, setEmail] = useState('');
-
+  const navigation = useNavigation();
 
   const adicionaDominio = () => {
     setEmail(email + '@academico.ifpb.edu.br')
   }
 
-  const envia = () => 0;
+  const handleSubmit = () => navigation.navigate("Codigo");
   
   return (
-    <View style={styles.container}>
-      <Text style={styles.titulo}>Recuperação de Senha</Text>
+    <SafeAreaView style={styles.container}>
+    <View style={{ width: "100%" }}>
+      <TouchableOpacity onPress={() => navigation.goBack()} style={styles.back}>
+        <Ionicons name="chevron-back" size={18} color="black" />
+      </TouchableOpacity>
+      
+      <Text style={styles.titulo}>Esqueceu sua Senha?</Text>
       <View style={styles.viewMensagem}>
         <Text style={styles.mensagem}>
           {mensagem}
         </Text>
       </View>
       <TextInput 
-        placeholder="Email"
+        placeholder="Digite seu E-mail"
         placeholderTextColor="#A3A3A3"
         selectionColor="black"
         style={styles.input}
@@ -40,29 +47,42 @@ export default function RecuperacaoSenha(){
           </TouchableOpacity>
       }
       
-      <TouchableOpacity style={styles.botao}>
+      <TouchableOpacity onPress={handleSubmit} style={styles.botao}>
         <Text style={styles.botao.texto}>Enviar</Text>
       </TouchableOpacity>
-    </View>
+      </View>
+
+        <TouchableOpacity style={{alignSelf: "center", flexDirection: "row"}}
+          onPress={() => navigation.navigate("Login")}>
+          <Text>Lembrou sua senha? </Text><Text style={{fontWeight: "bold"}}>Login</Text>
+        </TouchableOpacity>
+    </SafeAreaView>
   )
 }
 
 const styles = StyleSheet.create({
   back: {
-    alignSelf: "left"
+    padding: 15,
+    borderWidth: 0.5,
+    borderColor: "#cdcdcd",
+    borderRadius: 15,
+    width: 50,
+    text: {
+      fontSize: 18
+    }
   },
   container: {
     flex: 1,
     alignItems: "center",
-    padding: 45,
-    backgroundColor: "white"
+    paddingHorizontal: 45,
+    backgroundColor: "white",
+    justifyContent: "space-around",
   },
   titulo: {
     textAlign: "center",
     fontWeight: "bold",
     fontSize: 20,
-    marginTop: '40%',
-    marginBottom: 10
+    marginVertical: "20%",
   },
   input: {
     backgroundColor: "#fff",
@@ -78,7 +98,8 @@ const styles = StyleSheet.create({
     margin: 5,
     borderWidth: 0.5,
     borderColor: "black",
-    borderRadius: 12
+    borderRadius: 12,
+    alignSelf: "center"
   },
   botao: {
     width: "100%",
