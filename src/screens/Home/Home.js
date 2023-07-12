@@ -3,7 +3,6 @@ import { View, Text, StyleSheet } from 'react-native';
 import { useSelector } from 'react-redux';
 
 export function Home() {
-
   const { currentUser } = useSelector((state) => state.userReducer); // Pega as informações do usuário corrente no estado global
 
   return (

@@ -4,7 +4,6 @@ import { useNavigation } from '@react-navigation/native';
 import { Ionicons } from '@expo/vector-icons';
 
 export default function RecuperacaoSenha(){
-  const [mensagem, setMensagem] = useState('Digite o endereço de email previamente cadastrado por você. Enviaremos um email com o código de autenticação.');
   const [email, setEmail] = useState('');
   const navigation = useNavigation();
 
@@ -12,7 +11,7 @@ export default function RecuperacaoSenha(){
     setEmail(email + '@academico.ifpb.edu.br')
   }
 
-  const handleSubmit = () => navigation.navigate("Codigo");
+  const handleSubmit = () => navigation.navigate("CodeVerification");
   
   return (
     <SafeAreaView style={styles.container}>
@@ -21,10 +20,10 @@ export default function RecuperacaoSenha(){
         <Ionicons name="chevron-back" size={18} color="black" />
       </TouchableOpacity>
       
-      <Text style={styles.titulo}>Esqueceu sua Senha?</Text>
-      <View style={styles.viewMensagem}>
-        <Text style={styles.mensagem}>
-          {mensagem}
+      <Text style={styles.title}>Esqueceu sua Senha?</Text>
+      <View style={styles.viewMessage}>
+        <Text style={styles.message}>
+          Digite o endereço de email previamente cadastrado por você. Enviaremos um email com o código de autenticação.
         </Text>
       </View>
       <TextInput 
@@ -39,7 +38,7 @@ export default function RecuperacaoSenha(){
       {
         (!email.includes('@') && email.length > 0) &&
           <TouchableOpacity 
-            style={styles.atalho}
+            style={styles.domain}
             onPress={adicionaDominio}>
             <Text>
               @academico.ifpb.edu.br
@@ -47,8 +46,8 @@ export default function RecuperacaoSenha(){
           </TouchableOpacity>
       }
       
-      <TouchableOpacity onPress={handleSubmit} style={styles.botao}>
-        <Text style={styles.botao.texto}>Enviar</Text>
+      <TouchableOpacity onPress={handleSubmit} style={styles.button}>
+        <Text style={styles.button.label}>Enviar</Text>
       </TouchableOpacity>
       </View>
 
@@ -78,7 +77,7 @@ const styles = StyleSheet.create({
     backgroundColor: "white",
     justifyContent: "space-around",
   },
-  titulo: {
+  title: {
     textAlign: "center",
     fontWeight: "bold",
     fontSize: 20,
@@ -93,7 +92,7 @@ const styles = StyleSheet.create({
     marginTop: 20,
     width: "100%",
   },
-  atalho: {
+  domain: {
     padding: 3,
     margin: 5,
     borderWidth: 0.5,
@@ -101,22 +100,22 @@ const styles = StyleSheet.create({
     borderRadius: 12,
     alignSelf: "center"
   },
-  botao: {
+  button: {
     width: "100%",
     backgroundColor: "#212226",
     alignItems: "center",
     borderRadius: 12,
     padding: 15,
     marginTop: 45,
-    texto: {
+    label: {
       color: "white",
       fontWeight: "bold",
     },
   },
-  viewMensagem: {
+  viewMessage: {
     marginVertical: 5,
   },
-  mensagem: {
+  message: {
     color: "#333"
   }
 });
