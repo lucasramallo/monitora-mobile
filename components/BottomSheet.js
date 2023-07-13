@@ -1,15 +1,16 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { StyleSheet, Switch, SafeAreaView, TextInput, View, TouchableOpacity, Image, Text, FlatList } from 'react-native';
 import { Feather } from '@expo/vector-icons';
+import DateTimePickerModal from "react-native-modal-datetime-picker";
 
 export default function BottomSheet(props) {
   const { onConfirm, hourItemToEditObject } = props;
   const edit = hourItemToEditObject != null;
   const [isRemote, setIsRemote] = useState(false);
   const [description, setDescription] = useState(edit ? hourItemToEditObject.description : "");
-  const [date, setDate] = useState(edit ? hourItemToEditObject.date : "");
-  const [startTime, setStartTime] = useState(edit ? hourItemToEditObject.workload.split("/")[0] : "");
-  const [endTime, setEndTime] = useState(edit ? hourItemToEditObject.workload.split("/")[1] : "");
+  const [date, setDate] = useState(edit ? hourItemToEditObject.date : "Date");
+  const [startTime, setStartTime] = useState(edit ? hourItemToEditObject.workload.split("/")[0] : "Início");
+  const [endTime, setEndTime] = useState(edit ? hourItemToEditObject.workload.split("/")[1] : "Final");
   const [showDatePicker, setShowDatePicker] = useState(false);
   const [showStartTimePicker, setStartTimePicker] = useState(false);
   const [showEndTimePicker, setEndTimePicker] = useState(false);
@@ -21,25 +22,56 @@ export default function BottomSheet(props) {
         <TextInput 
           multiline={true}
           value={description}
+          onChangeText={text => setDescription(text)}
           numberOfLines={4}
           selectionColor="#000"
           placeholder="Descrição..."
           style={[styles.inputs, styles.descriptionInput]}/>
           
+          <DateTimePickerModal
+            isVisible={showDatePicker}
+            mode="date"
+            onConfirm={(chosenDate) => {
+              setDate(chosenDate.toLocaleDateString());
+              setShowDatePicker(false);
+            }}
+            onCancel={() => setShowDatePicker(false)}
+          />
+              
         <TouchableOpacity 
           style={[styles.inputs, styles.topInputs]}
           onPress={() => setShowDatePicker(true)}
           >
-          <Text style={styles.placeholderText}>Data</Text>
+          <Text style={date == "Date" ? styles.placeholderText : {}}>{date}</Text>
           <Feather name="calendar" size={24} color="#949BA5" />
         </TouchableOpacity>
+        
+        <DateTimePickerModal
+          isVisible={showStartTimePicker}
+          mode="time"
+          onConfirm={(chosenStartTime) => {
+            setStartTime(chosenStartTime.toLocaleTimeString([], { hour12: false, hour: "2-digit", minute: "2-digit" }));
+            setStartTimePicker(false);
+          }}
+          onCancel={() => setStartTimePicker(false)}
+        />
+        
+        <DateTimePickerModal
+          isVisible={showEndTimePicker}
+          mode="time"
+          onConfirm={(chosenEndTime) => {
+            setEndTime(chosenEndTime.toLocaleTimeString([], { hour12: false, hour: "2-digit", minute: "2-digit" }));
+            setEndTimePicker(false);
+          }}
+          onCancel={() => setEndTimePicker(false)}
+        />
         
         <View style={styles.timeInputsView}>
           <TouchableOpacity 
             style={[styles.inputs, styles.timeInputs]}
             onPress={() => setStartTimePicker(true)}
             >
-            <Text style={styles.placeholderText}>Início</Text>
+            <Text style={startTime == "Início" ? styles.placeholderText: {}}>{startTime}</Text>
             <Feather name="clock" size={24} color="#949BA5" />
           </TouchableOpacity>
           
@@ -47,7 +79,7 @@ export default function BottomSheet(props) {
             style={[styles.inputs, styles.timeInputs]}
             onPress={() => setEndTimePicker(true)}
             >
-            <Text style={styles.placeholderText}>Final</Text>
+            <Text style={endTime == "Final" ? styles.placeholderText: {}}>{endTime}</Text>
             <Feather name="clock" size={24} color="#949BA5" />
           </TouchableOpacity>
         </View>
