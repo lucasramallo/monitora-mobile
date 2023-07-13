@@ -4,15 +4,16 @@ import { MaterialCommunityIcons } from '@expo/vector-icons';
 import BouncyCheckbox from "react-native-bouncy-checkbox";
 
 export default function HorarioItem (props) {
-  const {workload, date} = props.item;
+  const { item, onEditPress } = props;
+  
   return (
     <View style={styles.container}>
       <View style={{flexDirection: "row", gap: 20, alignItems: "center"}}>
         <BouncyCheckbox onPress={(isChecked) => 0} size={20} fillColor="#000"/>
-        <Text>{workload}</Text>
+        <Text>{item.workload}</Text>
       </View>
-      <Text>{date}</Text>
-      <TouchableOpacity  style={{marginHorizontal: 20}} onPress={() => 0} >
+      <Text>{item.date}</Text>
+      <TouchableOpacity  style={{marginHorizontal: 20}} onPress={onEditPress} >
         <MaterialCommunityIcons name="pencil-outline" size={24} color="black" />
       </TouchableOpacity>
     </View>
