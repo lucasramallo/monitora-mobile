@@ -4,7 +4,7 @@ import { useNavigation } from '@react-navigation/native';
 import { Ionicons } from '@expo/vector-icons';
 import SmoothPinCodeInput from 'react-native-smooth-pincode-input';
 
-export default function RecuperacaoSenha(){
+export default function CodeVerification(){
   const email = 'raykkoner@gmail.com';
   const generatedCode = '12345';
   const [secondsToResend, setSecondsToResend] = useState(20);

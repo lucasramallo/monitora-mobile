@@ -40,6 +40,15 @@ export default function Hours() {
   const modalizeRef = useRef(null);
   const [hourItemToEditObject, setHourItemToEditObject] = useState(null);
   
+  const handleAddHourItem = (item) => {
+    modalizeRef.current?.close();
+    if(hoursList.find(hourItem => hourItem.id == item.id)){
+      return // Edita o item
+    } else {
+      hoursList.push(item);
+    }
+  }
+  
   return (
     <SafeAreaView style={styles.container}>
       <View style={styles.header}>

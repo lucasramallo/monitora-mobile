@@ -3,7 +3,7 @@ import { StyleSheet, SafeAreaView, TextInput, View, TouchableOpacity, Text, Aler
 import { useNavigation } from '@react-navigation/native';
 import { Ionicons } from '@expo/vector-icons';
 
-export default function RecuperacaoSenha(){
+export default function PasswordRecovery(){
   const [email, setEmail] = useState('');
   const navigation = useNavigation();
 
