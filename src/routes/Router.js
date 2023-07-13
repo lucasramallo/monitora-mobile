@@ -4,7 +4,7 @@ import Start from '../screens/Start/Start';
 import Register from '../screens/Register/Register';
 import Login from '../screens/Login/Login'; 
 import PasswordRecovery from '../screens/PasswordRecovery/PasswordRecovery';
-import CodeVerification from '../screens/PasswordRecovery/CodeVerification';
+import CodeVerification from '../screens/CodeVerification/CodeVerification';
 import { Home } from '../screens/Home/Home';
 import Horarios from '../screens/Hours/Hours';
 
