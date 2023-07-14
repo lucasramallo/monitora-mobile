@@ -1,12 +1,5 @@
 import * as React from 'react';
-import {
-  View,
-  Image,
-  Text,
-  TouchableOpacity,
-  StyleSheet,
-  ImageBackground,
-} from 'react-native';
+import { View, Image, Text, TouchableOpacity, StyleSheet, ImageBackground } from 'react-native';
 import ImageAvatar from '../../../assets/img/AvatarInicio.png';
 import Background from '../../../assets/img/BackgroundInicio.png';
 import { useNavigation } from '@react-navigation/native';
@@ -23,21 +16,28 @@ export default function Start() {
       <View style={styles.content}>
         <Image source={ImageAvatar} style={styles.imageAvatar} />
         <View style={styles.subcontent}>
-          <Text style={styles.title}>Seja bem-vindo ao Monitora App</Text>
+          <Text style={styles.title}>
+            {"Seja bem-vindo ao Monitora App"}
+          </Text>
           <Text style={styles.subtitle}>
-            Gerencie sua monitoria, de forma simples, em um só lugar
+            {"Gerencie sua monitoria, de forma simples, em um só lugar"}
           </Text>
         </View>
+        
         <View style={styles.buttonsView}>
           <TouchableOpacity
             style={styles.buttonRegister}
             onPress={() => navigation.navigate('Register')}>
-            <Text style={styles.buttonRegister.label}>Registrar-se</Text>
+            <Text style={styles.buttonRegister.label}>
+              {"Registrar-se"}
+            </Text>
           </TouchableOpacity>
           <TouchableOpacity
             style={styles.buttonLogin}
             onPress={() => navigation.navigate('Login')}>
-            <Text style={styles.buttonLogin.label}>Entrar</Text>
+            <Text style={styles.buttonLogin.label}>
+              {"Entrar"}
+            </Text>
           </TouchableOpacity>
         </View>
       </View>

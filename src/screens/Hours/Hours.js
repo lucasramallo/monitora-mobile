@@ -43,34 +43,63 @@ export default function Hours() {
   const handleAddHourItem = (item) => {
     modalizeRef.current?.close();
     if(hoursList.find(hourItem => hourItem.id == item.id)){
-      return // Edita o item
+      const hoursListCopy = [...hoursList];
+      const itemIndex = hoursListCopy.findIndex(obj => obj.id == item.id);
+      hoursListCopy.splice(itemIndex, 1, item);
+      setHoursList(hoursListCopy);
     } else {
-      hoursList.push(item);
+      setHoursList([...hoursList, item]);
     }
   }
   
   return (
     <SafeAreaView style={styles.container}>
       <View style={styles.header}>
-        <Image style={styles.userImage} source={{uri: userImageURL}} />
-        <View style={{justifyContent: "space-between"}}>
-          <Text style={{fontWeight: "bold"}}>{userName}</Text>
-          <Text style={{color: "#949BA5", fontSize: 12,}}>Monitor {subject}</Text>
+        <Image 
+          style={styles.userImage} 
+          source={{uri: userImageURL}} 
+        />
+        
+        <View style={styles.userInfoView}>
+          <Text style={styles.userName}>
+            {userName}
+          </Text>
+          <Text style={styles.userSubject}>
+            {"Monitor " + subject}
+          </Text>
         </View>
       </View>
       
-      <Text style={styles.title}>Meus Horários</Text>
-      <Text style={{color: "#949BA5"}}>Mês de {month}</Text>
+      <Text style={styles.title}>
+        {"Meus Horários"}
+      </Text>
+      
+      <Text style={styles.monthTitle}>
+        {"Mês de " + month}
+      </Text>
       
       <View style={styles.topButtonsView}>
         <View style={styles.topButtonsViewLeft}>
           <TouchableOpacity style={styles.topButtons}>
-            <FontAwesome name="sliders" size={16} color="#949BA5" />
-            <Text style={{fontSize: 12, color: "#949BA5"}}>Filtros</Text>
+            <FontAwesome 
+              name="sliders" 
+              size={16} 
+              color="#949BA5" 
+            />
+            <Text style={styles.topButtonsLeftLabels}>
+              {"Filtros"}
+            </Text>
           </TouchableOpacity>
+          
           <TouchableOpacity style={styles.topButtons}>
-            <FontAwesome name="sliders" size={16} color="#949BA5" />
-            <Text style={{fontSize: 12, color: "#949BA5"}}>Delete</Text>
+            <FontAwesome 
+              name="sliders" 
+              size={16} 
+              color="#949BA5" 
+            />
+            <Text style={styles.topButtonsLeftLabels}>
+              {"Delete"}
+            </Text>
           </TouchableOpacity>
         </View>
         
@@ -81,26 +110,72 @@ export default function Hours() {
               modalizeRef.current?.open();
             }
           }>
-          <Entypo name="plus" size={20} color="#fff"/>
-          <Text style={{color: "#fff"}}>Adicionar</Text>
+          <Entypo 
+            name="plus" 
+            size={20} 
+            color="#fff"
+          />
+          <Text style={styles.addHourItemButtonLabel}>
+            {"Adicionar"}
+          </Text>
         </TouchableOpacity>
       </View>
       
       <View style={styles.filtersView}>
-        <TouchableOpacity style={{flexDirection: "row", alignItems: "center", gap: 5}}>
-          <Text style={{color: "#949BA5"}}>Carga</Text>
-          <Octicons name="arrow-switch" size={24} color="#949BA5" transform={[{ rotate: '90deg' }, { scale: 0.8 }]}/>
+        <TouchableOpacity style={styles.filterButtons}>
+          <Text style={styles.filterButtonsLabels}>
+            {"Carga"}
+          </Text>
+          <Octicons 
+            name="arrow-switch" 
+            size={24} 
+            color="#949BA5" 
+            transform={[
+              { rotate: '90deg' }, 
+              { scale: 0.8 }
+            ]}
+          />
         </TouchableOpacity>
-        <TouchableOpacity style={{flexDirection: "row", alignItems: "center", gap: 5}}>
-          <Text style={{color: "#949BA5"}}>Data</Text>
-          <Octicons name="arrow-switch" size={24} color="#949BA5" transform={[{ rotate: '90deg' }, { scale: 0.8 }]}/>
+        
+        <TouchableOpacity style={styles.filterButtons}>
+          <Text style={styles.filterButtonsLabels}>
+            {"Data"}
+          </Text>
+          <Octicons 
+            name="arrow-switch" 
+            size={24} 
+            color="#949BA5" 
+            transform={[
+              { rotate: '90deg' }, 
+              { scale: 0.8 }
+            ]}
+          />
         </TouchableOpacity>
-        <View style={{flexDirection: "row", gap: 5}}>
-          <TouchableOpacity disabled={!thereIsPreviousMonth} style={thereIsPreviousMonth && styles.pageButtonActive || styles.pageButtonDisabled}>
-            <Ionicons name="chevron-back" size={16} color="#222"/>
+        
+        <View style={styles.buttonBackForwardView}>
+          <TouchableOpacity 
+            disabled={!thereIsPreviousMonth}
+            style={
+              thereIsPreviousMonth ? styles.pageButtonActive : styles.pageButtonDisabled
+            }
+          >
+            <Ionicons 
+              name="chevron-back" 
+              size={16} 
+              color="#222"
+            />
           </TouchableOpacity>
-          <TouchableOpacity disabled={!thereIsLaterMonth} style={thereIsLaterMonth && styles.pageButtonActive || styles.pageButtonDisabled}>
-            <Ionicons name="chevron-forward" size={16} color="#222" />
+          <TouchableOpacity 
+            disabled={!thereIsLaterMonth}
+            style={
+              thereIsLaterMonth ? styles.pageButtonActive : styles.pageButtonDisabled
+            }
+          >
+            <Ionicons 
+              name="chevron-forward" 
+              size={16} 
+              color="#222" 
+            />
           </TouchableOpacity>
         </View>
       </View>
@@ -109,17 +184,23 @@ export default function Hours() {
         <FlatList 
           data={hoursList}
           renderItem={({item}) => (
-          <HorarioItem item={item} onEditPress={() => {
-              setHourItemToEditObject(item);
-              modalizeRef.current?.open();
-            }
-          } />)
+            <HorarioItem item={item} onEditPress={() => {
+                setHourItemToEditObject(item);
+                modalizeRef.current?.open();
+              }
+            } />)
           }
         />
       </View>
       
-      <Modalize ref={modalizeRef} adjustToContentHeight={true}>
-        <BottomSheet hourItemToEditObject={hourItemToEditObject} onConfirm={() => modalizeRef.current?.close()}/>
+      <Modalize 
+        ref={modalizeRef}
+        adjustToContentHeight={true}
+      >
+        <BottomSheet 
+          hourItemToEditObject={hourItemToEditObject}
+          onConfirm={newItem => handleAddHourItem(newItem)}
+        />
       </Modalize>
     </SafeAreaView>
   );
@@ -142,10 +223,23 @@ const styles = StyleSheet.create({
     height: 45,
     borderRadius: 100
   },
+  userInfoView: {
+    justifyContent: "space-between"
+  },
+  userName: {
+    fontWeight: "bold"
+  },
+  userSubject: {
+    color: "#949BA5", 
+    fontSize: 12,
+  },
   title: {
     fontWeight: "bold",
     fontSize: 24,
     marginVertical: 20
+  },
+  monthTitle: {
+    color: "#949BA5"
   },
   topButtonsView: {
     flexDirection: "row",
@@ -157,6 +251,10 @@ const styles = StyleSheet.create({
     flexDirection: "row",
     marginVertical: 15,
     gap: 10
+  },
+  topButtonsLeftLabels: {
+    fontSize: 12, 
+    color: "#949BA5"
   },
   topButtons: {
     borderWidth: 1,
@@ -175,11 +273,26 @@ const styles = StyleSheet.create({
     gap: 5,
     alignItems: "center"
   },
+  addHourItemButtonLabel: {
+    color: "#fff"
+  },
   filtersView: {
     flexDirection: "row",
     justifyContent: "space-between",
     marginBottom: 10,
     marginLeft: 70
+  },
+  filterButtons: {
+    flexDirection: "row", 
+    alignItems: "center", 
+    gap: 5
+  },
+  filterButtonsLabels: {
+    color: "#949BA5"
+  },
+  buttonBackForwardView: {
+    flexDirection: "row",
+    gap: 5
   },
   pageButtonActive: {
     borderRadius: 50,  

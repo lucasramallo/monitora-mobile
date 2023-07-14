@@ -8,13 +8,30 @@ export default function HorarioItem (props) {
   
   return (
     <View style={styles.container}>
-      <View style={{flexDirection: "row", gap: 20, alignItems: "center"}}>
-        <BouncyCheckbox onPress={(isChecked) => 0} size={20} fillColor="#000"/>
-        <Text>{item.workload}</Text>
+      <View style={styles.checkAndWorkloadView}>
+        <BouncyCheckbox 
+          onPress={(isChecked) => 0} 
+          size={20} 
+          fillColor="#000"
+        />
+        <Text>
+          {item.workload}
+        </Text>
       </View>
-      <Text>{item.date}</Text>
-      <TouchableOpacity  style={{marginHorizontal: 20}} onPress={onEditPress} >
-        <MaterialCommunityIcons name="pencil-outline" size={24} color="black" />
+      
+      <Text>
+        {item.date}
+      </Text>
+      
+      <TouchableOpacity 
+        style={styles.editButton} 
+        onPress={onEditPress} 
+      >
+        <MaterialCommunityIcons 
+          name="pencil-outline" 
+          size={24} 
+          color="black" 
+        />
       </TouchableOpacity>
     </View>
   );
@@ -26,5 +43,13 @@ const styles = StyleSheet.create({
     justifyContent: "space-between",
     marginVertical: 10,
     alignItems: "center"
+  },
+  checkAndWorkloadView: {
+    flexDirection: "row", 
+    gap: 20, 
+    alignItems: "center"
+  },
+  editButton: {
+    marginHorizontal: 20
   }
 });

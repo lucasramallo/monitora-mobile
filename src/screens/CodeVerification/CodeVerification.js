@@ -1,14 +1,14 @@
-import React, { useState, useEffect, useRef } from 'react';
-import { StyleSheet, SafeAreaView, TextInput, View, TouchableOpacity, Text, Alert } from 'react-native';
-import { useNavigation } from '@react-navigation/native';
-import { Ionicons } from '@expo/vector-icons';
-import SmoothPinCodeInput from 'react-native-smooth-pincode-input';
+import React, { useState, useEffect, useRef } from "react";
+import { StyleSheet, SafeAreaView, TextInput, View, TouchableOpacity, Text, Alert } from "react-native";
+import { useNavigation } from "@react-navigation/native";
+import { Ionicons } from "@expo/vector-icons";
+import SmoothPinCodeInput from "react-native-smooth-pincode-input";
 
 export default function CodeVerification(){
-  const email = 'raykkoner@gmail.com';
-  const generatedCode = '12345';
+  const email = "raykkoner@gmail.com";
+  const generatedCode = "12345";
   const [secondsToResend, setSecondsToResend] = useState(20);
-  const [typedCode, setTypedCode] = useState('');
+  const [typedCode, setTypedCode] = useState("");
   const [shouldResend, setShouldResend] = useState(false);
   const navigation = useNavigation(); 
   const codeInputRef = useRef();
@@ -36,53 +36,66 @@ export default function CodeVerification(){
   
   return (
     <SafeAreaView style={styles.container}>
-    <View style={{ width: "100%" }}>
-      <TouchableOpacity onPress={() => navigation.goBack()} style={styles.back}>
-        <Ionicons name="chevron-back" size={18} color="black" />
-      </TouchableOpacity>
-      
-      <Text style={styles.title}>Insira o código</Text>
-      <View style={styles.messageView}>
-        <Text style={styles.message}>
-          Enviamos um código de altenticação ao endereço de e-mail: <Text style={{fontWeight: "800", color: "#000"}}>{email}</Text>. Por favor verifique sua caixa de entrada e sua caixa de spam.
+      <View style={styles.topPartView}>
+        <TouchableOpacity 
+          onPress={() => navigation.goBack()}
+          style={styles.back}
+        >
+          <Ionicons name="chevron-back" size={18} color="black" />
+        </TouchableOpacity>
+        
+        <Text style={styles.title}>
+          {"Insira o código"}
         </Text>
-      </View>
-      
-      <SmoothPinCodeInput
-            ref={codeInputRef}
-            cellStyle={{
-              borderWidth: 1,
-              borderColor: 'gray',
-              borderRadius: 12,
-            }}
-            textStyle={{
-              color: "black",
-              fontSize: 25
-            }}
-            cellStyleFocused={{
-              borderColor: 'black',
-            }}
-            codeLength={5}
-            cellSize={60}
-            value={typedCode}
-            onTextChange={typedCode => setTypedCode(typedCode)}
-            onFulfill={compareCode}
-            />
-      
-      <TouchableOpacity 
-      disabled={!shouldResend} 
-      style={{ backgroundColor: shouldResend && "#212226" || "#aaa", width: "100%", alignItems: "center", borderRadius: 12, padding: 15, marginTop: 80 }}
-      onPress={() => {
-        setSecondsToResend(20);
-        setShouldResend(false);
-      }}
-      >
-        <Text style={styles.buttonLabel}>Reenviar</Text>
-      </TouchableOpacity>
+        
+        <View style={styles.messageView}>
+          <Text style={styles.message}>
+            {"Enviamos um código de altenticação ao endereço de e-mail: "}
+            <Text style={styles.bold}>
+              {email}
+            </Text>
+            {". Por favor verifique sua caixa de entrada e sua caixa de spam."}
+          </Text>
+        </View>
+        
+        <SmoothPinCodeInput
+          ref={codeInputRef}
+          cellStyle={styles.codeCell}
+          textStyle={styles.codeText}
+          cellStyleFocused={styles.codeCellFocused}
+          codeLength={5}
+          cellSize={60}
+          value={typedCode}
+          onTextChange={typedCode => setTypedCode(typedCode)}
+          onFulfill={compareCode}
+        />
+        
+        <TouchableOpacity 
+          disabled={!shouldResend} 
+          style={buttonStyle(shouldResend).style}
+          onPress={() => {
+            setSecondsToResend(20);
+            setShouldResend(false);
+          }}
+          >
+          <Text style={styles.buttonLabel}>
+            {"Reenviar"}
+          </Text>
+        </TouchableOpacity>
       </View>
 
-        <Text style={{alignSelf: "center", flexDirection: "row"}}>Não chegou? Re-envie o código{!shouldResend && <> em <Text style={{fontWeight: "bold"}}>{secondsToResend}s</Text></>}.
-        </Text>
+      <Text style={styles.bottomMessage}>
+        {"Não chegou? Re-envie o código"}
+        {!shouldResend && 
+          <>
+            {" em "}
+            <Text style={styles.bold}>
+              {secondsToResend + "s"}
+            </Text>
+          </>
+        }
+        {"."}
+      </Text>
     </SafeAreaView>
   )
 }
@@ -105,6 +118,9 @@ const styles = StyleSheet.create({
     backgroundColor: "white",
     justifyContent: "space-around",
   },
+  topPartView: { 
+    width: "100%"
+  },
   title: {
     textAlign: "center",
     fontWeight: "bold",
@@ -117,8 +133,39 @@ const styles = StyleSheet.create({
   message: {
     color: "#333"
   },
+  bold: {
+    fontWeight: "800", 
+    color: "#000"
+  },
+  codeCell: {
+    borderWidth: 1,
+    borderColor: "gray",
+    borderRadius: 12,
+  },
+  codeCellFocused: {
+    borderColor: "black"
+  },
+  codeText: {
+    color: "black",
+    fontSize: 25
+  },
   buttonLabel: {
     color: "white",
     fontWeight: "bold",
   },
+  bottomMessage: {
+    alignSelf: "center", 
+    flexDirection: "row"
+  }
+});
+
+const buttonStyle = (condition) => StyleSheet.create({
+  style: {
+    backgroundColor: condition ? "#212226" : "#aaa", 
+    width: "100%", 
+    alignItems: "center", 
+    borderRadius: 12, 
+    padding: 15, 
+    marginTop: 80
+  }
 });

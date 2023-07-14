@@ -1,13 +1,5 @@
 import React, { useState } from 'react';
-import {
-  Text,
-  View,
-  StyleSheet,
-  TouchableOpacity,
-  TextInput,
-  SafeAreaView,
-  Alert
-} from 'react-native'; 
+import { Text, View,  StyleSheet,  TouchableOpacity,  TextInput,  SafeAreaView,  Alert} from 'react-native'; 
 import { Octicons } from '@expo/vector-icons';
 import Constants from 'expo-constants';
 import { useNavigation } from '@react-navigation/native';
@@ -29,13 +21,18 @@ export default function Login() {
     navigation.navigate("Horarios")
     // Alert.alert('Login realizado com sucesso!', `Matrícula: ${registrationNumber}`);
   };
+  
   return (
     <SafeAreaView style={styles.container}>
       <View style={styles.form}>
         <View>
-          <Text style={styles.title}>Login</Text>
+          <Text style={styles.title}>
+            {"Login"}
+          </Text>
     
-          <Text style={styles.label}>Matrícula</Text>
+          <Text style={styles.label}>
+            {"Matrícula"}
+          </Text>
           <TextInput
             placeholder="Ex.: 202019600020"
             placeholderTextColor="#A3A3A3"
@@ -46,47 +43,62 @@ export default function Login() {
             style={styles.inputs}
           />
     
-          <Text style={styles.label}>Senha</Text>
+          <Text style={styles.label}>
+            {"Senha"}
+          </Text>
           <View
-            style={[styles.password, styles.inputs]}>
+            style={[
+              styles.password, 
+              styles.inputs
+            ]}
+          >
             <TextInput
               placeholder="Senha"
               placeholderTextColor="#A3A3A3"
               selectionColor="black"
               onChangeText={text => setPassword(text)}
               value={password}
-              style={{
-                width: "80%"
-              }}
+              style={styles.passwordInput}
               secureTextEntry={!showPassword}
             />
             <TouchableOpacity onPress={() => setShowPassword(!showPassword)}>
               <Octicons 
-                name={showPassword && "eye-closed" || "eye"} 
+                name={showPassword ? "eye-closed" : "eye"} 
                 size={18} 
                 color="black" 
-                styles={{margin: 15}}/>
+                styles={styles.eyeIcon}/>
             </TouchableOpacity>
           </View>
     
           <TouchableOpacity 
             onPress={() => navigation.navigate("PasswordRecovery")}
-            style={{alignSelf:"center"}}
+            style={styles.passwordRecoveryLink}
           >
-            <Text style={styles.linkLogin}>Esqueci minha senha</Text>
+            <Text style={styles.linkLogin}>
+              {"Esqueci minha senha"}
+            </Text>
           </TouchableOpacity>
     
           <TouchableOpacity 
             onPress={handleSubmit}
             style={styles.button}
           >
-            <Text style={styles.button.label}>Login</Text>
+            <Text style={styles.button.label}>
+              {"Login"}
+            </Text>
           </TouchableOpacity>
         </View>
 
-        <TouchableOpacity style={{alignSelf: "center", flexDirection: "row"}}
-          onPress={() => navigation.navigate("Register")}>
-          <Text>Ainda não tem uma conta? </Text><Text style={{fontWeight: "bold"}}>Sign up</Text>
+        <TouchableOpacity 
+          style={styles.registerLink}
+          onPress={() => navigation.navigate("Register")}
+        >
+          <Text>
+            {"Ainda não tem uma conta? "}
+          </Text>
+          <Text style={styles.signupLink}>
+            {"Sign up"}
+          </Text>
         </TouchableOpacity>
 
       </View>
@@ -123,11 +135,27 @@ const styles = StyleSheet.create({
     padding: 15,
     marginBottom: 20
   },
+  passwordInput: {
+    width: "80%"
+  },
   password: {
     flexDirection: "row",
     justifyContent: "space-between",
     alignItems: "center",
     gap: 15
+  },
+  eyeIcon: {
+    margin: 15
+  },
+  passwordRecoveryLink: {
+    alignSelf: "center"
+  },
+  registerLink: {
+    alignSelf: "center", 
+    flexDirection: "row"
+  },
+  signupLink: {
+    fontWeight: "bold"
   },
   button: {
     width: "100%",

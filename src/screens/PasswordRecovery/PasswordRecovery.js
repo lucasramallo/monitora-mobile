@@ -15,45 +15,65 @@ export default function PasswordRecovery(){
   
   return (
     <SafeAreaView style={styles.container}>
-    <View style={{ width: "100%" }}>
-      <TouchableOpacity onPress={() => navigation.goBack()} style={styles.back}>
-        <Ionicons name="chevron-back" size={18} color="black" />
-      </TouchableOpacity>
-      
-      <Text style={styles.title}>Esqueceu sua Senha?</Text>
-      <View style={styles.viewMessage}>
-        <Text style={styles.message}>
-          Digite o endereço de email previamente cadastrado por você. Enviaremos um email com o código de autenticação.
+      <View style={styles.firstPartView}>
+        <TouchableOpacity 
+          onPress={() => navigation.goBack()}
+          style={styles.back}
+        >
+          <Ionicons 
+            name="chevron-back" 
+            size={18} 
+            color="black"
+          />
+        </TouchableOpacity>
+        
+        <Text style={styles.title}>
+          {"Esqueceu sua Senha?"}
         </Text>
-      </View>
-      <TextInput 
-        placeholder="Digite seu E-mail"
-        placeholderTextColor="#A3A3A3"
-        selectionColor="black"
-        style={styles.input}
-        value={email}
-        onChangeText={text => setEmail(text)}
-      />
-      
-      {
-        (!email.includes('@') && email.length > 0) &&
-          <TouchableOpacity 
-            style={styles.domain}
-            onPress={adicionaDominio}>
-            <Text>
-              @academico.ifpb.edu.br
-            </Text>
-          </TouchableOpacity>
-      }
-      
-      <TouchableOpacity onPress={handleSubmit} style={styles.button}>
-        <Text style={styles.button.label}>Enviar</Text>
-      </TouchableOpacity>
+        <View style={styles.viewMessage}>
+          <Text style={styles.message}>
+            {"Digite o endereço de email previamente cadastrado por você. Enviaremos um email com o código de autenticação."}
+          </Text>
+        </View>
+        <TextInput 
+          placeholder="Digite seu E-mail"
+          placeholderTextColor="#A3A3A3"
+          selectionColor="black"
+          style={styles.input}
+          value={email}
+          onChangeText={text => setEmail(text)}
+        />
+        
+        {
+          (!email.includes('@') && email.length > 0) &&
+            <TouchableOpacity 
+              style={styles.domain}
+              onPress={adicionaDominio}>
+              <Text>
+                {"@academico.ifpb.edu.br"}
+              </Text>
+            </TouchableOpacity>
+        }
+        
+        <TouchableOpacity 
+          onPress={handleSubmit} 
+          style={styles.button}
+        >
+          <Text style={styles.button.label}>
+            {"Enviar"}
+          </Text>
+        </TouchableOpacity>
       </View>
 
-        <TouchableOpacity style={{alignSelf: "center", flexDirection: "row"}}
+        <TouchableOpacity 
+          style={styles.loginLink}
           onPress={() => navigation.navigate("Login")}>
-          <Text>Lembrou sua senha? </Text><Text style={{fontWeight: "bold"}}>Login</Text>
+          <Text>
+            {"Lembrou sua senha? "}
+          </Text>
+          <Text style={styles.loginLinkBold}>
+            {"Login"}
+          </Text>
         </TouchableOpacity>
     </SafeAreaView>
   )
@@ -76,6 +96,9 @@ const styles = StyleSheet.create({
     paddingHorizontal: 45,
     backgroundColor: "white",
     justifyContent: "space-around",
+  },
+  firstPartView: {
+    width: "100%"
   },
   title: {
     textAlign: "center",
@@ -111,6 +134,13 @@ const styles = StyleSheet.create({
       color: "white",
       fontWeight: "bold",
     },
+  },
+  loginLink: {
+    alignSelf: "center", 
+    flexDirection: "row"
+  },
+  loginLinkBold: {
+    fontWeight: "bold"
   },
   viewMessage: {
     marginVertical: 5,
