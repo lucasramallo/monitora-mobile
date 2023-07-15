@@ -3,8 +3,7 @@ import { StyleSheet, Switch, SafeAreaView, TextInput, View, TouchableOpacity, Im
 import { Feather } from '@expo/vector-icons';
 import DateTimePickerModal from "react-native-modal-datetime-picker";
 
-export default function BottomSheet(props) {
-  const { onConfirm, hourItemToEditObject } = props;
+export default function BottomSheet({ onConfirm, hourItemToEditObject }) {
   const newItem = {
     id: parseInt(Math.random()*128),
     description: "",
@@ -12,27 +11,29 @@ export default function BottomSheet(props) {
     workload: "Início/Final",
     remote: false
   };
-  const itemObject = hourItemToEditObject != null ? hourItemToEditObject : newItem;
-  const [isRemote, setIsRemote] = useState(itemObject.remote);
-  const [description, setDescription] = useState(itemObject.description);
-  const [date, setDate] = useState(itemObject.date);
-  const [startTime, setStartTime] = useState(itemObject.workload.split("/")[0]);
-  const [endTime, setEndTime] = useState(itemObject.workload.split("/")[1]);
+  const [itemObject, setItemObject] = useState(hourItemToEditObject || newItem);
   const [showDatePicker, setShowDatePicker] = useState(false);
   const [showStartTimePicker, setStartTimePicker] = useState(false);
   const [showEndTimePicker, setEndTimePicker] = useState(false);
+  const { id, description, date, workload, remote } = itemObject;
+  const [startTime, endTime] = workload.split("/");
+  
+  const handleChange = (prop, value) => {
+    setItemObject({
+      ...itemObject,
+      [prop]: value
+    });
+  };
   
   const handleConfirm = () => {
-    const workload = startTime + "/" + endTime;
-    const id = itemObject.id;
-    onConfirm({
-      id,
-      description, 
-      workload, 
-      date,
-      remote: isRemote
-    });
+    onConfirm(itemObject);
   }
+  
+  const formatTime = time => time.toLocaleTimeString([], { 
+    hour12: false, 
+    hour: "2-digit", 
+    minute: "2-digit" 
+  });
   
   return (
     <View style={styles.view}>
@@ -43,7 +44,7 @@ export default function BottomSheet(props) {
         <TextInput 
           multiline={true}
           value={description}
-          onChangeText={text => setDescription(text)}
+          onChangeText={text => handleChange("description", text)}
           numberOfLines={4}
           selectionColor="#000"
           placeholder="Descrição..."
@@ -57,7 +58,7 @@ export default function BottomSheet(props) {
           isVisible={showDatePicker}
           mode="date"
           onConfirm={(chosenDate) => {
-            setDate(chosenDate.toLocaleDateString());
+            handleChange("date", chosenDate.toLocaleDateString());
             setShowDatePicker(false);
           }}
           onCancel={() => setShowDatePicker(false)}
@@ -84,7 +85,7 @@ export default function BottomSheet(props) {
           isVisible={showStartTimePicker}
           mode="time"
           onConfirm={(chosenStartTime) => {
-            setStartTime(chosenStartTime.toLocaleTimeString([], { hour12: false, hour: "2-digit", minute: "2-digit" }));
+            handleChange("workload", formatTime(chosenStartTime) + "/" + endTime);
             setStartTimePicker(false);
           }}
           onCancel={() => setStartTimePicker(false)}
@@ -94,11 +95,7 @@ export default function BottomSheet(props) {
           isVisible={showEndTimePicker}
           mode="time"
           onConfirm={(chosenEndTime) => {
-            setEndTime(chosenEndTime.toLocaleTimeString([], {
-                hour12: false, 
-                hour: "2-digit", 
-                minute: "2-digit"
-            }));
+            handleChange("workload", startTime + "/" + formatTime(chosenEndTime));
             setEndTimePicker(false);
           }}
           onCancel={() => setEndTimePicker(false)}
@@ -150,10 +147,10 @@ export default function BottomSheet(props) {
               false:"#949BA5"
             }}
             thumbColor={
-              isRemote ? "#000" : "#565e6a"
+              remote ? "#000" : "#565e6a"
             }
-            value={isRemote}
-            onValueChange={() => setIsRemote(!isRemote)}
+            value={remote}
+            onValueChange={() => handleChange("remote", !remote)}
           />
         </View>
       </View>
