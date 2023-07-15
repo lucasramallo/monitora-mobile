@@ -3,8 +3,7 @@ import { StyleSheet, View, TouchableOpacity, Text } from 'react-native';
 import { MaterialCommunityIcons } from '@expo/vector-icons';
 import BouncyCheckbox from "react-native-bouncy-checkbox";
 
-export default function HorarioItem (props) {
-  const { item, onEditPress } = props;
+export default function HorarioItem ({ item, onEditPress }) {
   
   return (
     <View style={styles.container}>
