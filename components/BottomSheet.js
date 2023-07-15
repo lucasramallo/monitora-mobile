@@ -2,6 +2,7 @@ import React, { useState, useEffect, useRef } from 'react';
 import { StyleSheet, Switch, SafeAreaView, TextInput, View, TouchableOpacity, Image, Text, FlatList } from 'react-native';
 import { Feather } from '@expo/vector-icons';
 import DateTimePickerModal from "react-native-modal-datetime-picker";
+import { primaryColor } from '../assets/colors';
 
 export default function BottomSheet(props) {
   const { onConfirm, hourItemToEditObject } = props;
@@ -45,7 +46,7 @@ export default function BottomSheet(props) {
           value={description}
           onChangeText={text => setDescription(text)}
           numberOfLines={4}
-          selectionColor="#000"
+          selectionColor={primaryColor}
           placeholder="Descrição..."
           style={[
             styles.inputs, 
@@ -147,10 +148,10 @@ export default function BottomSheet(props) {
           <Switch 
             trackColor={{
               true: "#686868", 
-              false:"#949BA5"
+              false:"#CED3DE"
             }}
             thumbColor={
-              isRemote ? "#000" : "#565e6a"
+              isRemote ? "#000" : "#A6ABB5"
             }
             value={isRemote}
             onValueChange={() => setIsRemote(!isRemote)}
@@ -176,17 +177,18 @@ const styles = StyleSheet.create({
     padding: 15
   },
   title: {
-    fontWeight: "800",
     textAlign: "center",
     marginVertical: 20,
-    fontSize: 18,
+    fontSize: 20,
+    color: primaryColor,
+    fontFamily: 'Inter_600SemiBold'
   },
   inputsView: {
     gap: 10
   },
   inputs: {
     borderWidth: 1,
-    borderColor: "#949BA5",
+    borderColor: "#CDCDCD",
     borderRadius: 12,
     textAlignVertical: "top",
     padding: 10,
@@ -212,13 +214,15 @@ const styles = StyleSheet.create({
     justifyContent: "space-between"
   },
   button: {
-    backgroundColor: "#000",
-    padding: 10,
+    backgroundColor: primaryColor,
+    padding: 16,
     alignItems: "center",
     borderRadius: 12,
     marginVertical: 10,
     label: {
-      color: "#fff"
+      color: "#fff",
+      fontFamily: 'Inter_600SemiBold',
+      fontSize: 16
     }
   }
 });

@@ -3,16 +3,19 @@ import { StyleSheet, SafeAreaView, TextInput, View, TouchableOpacity, Text, Aler
 import { useNavigation } from "@react-navigation/native";
 import { Ionicons } from "@expo/vector-icons";
 import SmoothPinCodeInput from "react-native-smooth-pincode-input";
+import { paddingContainer } from "../../../assets/constants";
+import { primaryColor, tertiaryColor } from "../../../assets/colors";
 
 export default function CodeVerification(){
   const email = "raykkoner@gmail.com";
   const generatedCode = "12345";
   const [secondsToResend, setSecondsToResend] = useState(20);
+  const [secondsToResendAccumulated, setSecondsToResendAccumulated] = useState(20);
   const [typedCode, setTypedCode] = useState("");
   const [shouldResend, setShouldResend] = useState(false);
   const navigation = useNavigation(); 
   const codeInputRef = useRef();
-
+  
   
   const compareCode = (typedCode) => {
     if(typedCode == generatedCode){
@@ -39,7 +42,7 @@ export default function CodeVerification(){
       <View style={styles.topPartView}>
         <TouchableOpacity 
           onPress={() => navigation.goBack()}
-          style={styles.back}
+          style={styles.backButton}
         >
           <Ionicons name="chevron-back" size={18} color="black" />
         </TouchableOpacity>
@@ -58,23 +61,26 @@ export default function CodeVerification(){
           </Text>
         </View>
         
-        <SmoothPinCodeInput
-          ref={codeInputRef}
-          cellStyle={styles.codeCell}
-          textStyle={styles.codeText}
-          cellStyleFocused={styles.codeCellFocused}
-          codeLength={5}
-          cellSize={60}
-          value={typedCode}
-          onTextChange={typedCode => setTypedCode(typedCode)}
-          onFulfill={compareCode}
-        />
+        <View style={styles.PinCodeInputView}>
+          <SmoothPinCodeInput
+            ref={codeInputRef}
+            cellStyle={styles.codeCell}
+            textStyle={styles.codeText}
+            cellStyleFocused={styles.codeCellFocused}
+            codeLength={5}
+            cellSize={60}
+            value={typedCode}
+            onTextChange={typedCode => setTypedCode(typedCode)}
+            onFulfill={compareCode}
+          />
+        </View>
         
         <TouchableOpacity 
           disabled={!shouldResend} 
           style={buttonStyle(shouldResend).style}
           onPress={() => {
-            setSecondsToResend(20);
+            setSecondsToResend(secondsToResendAccumulated + 20);
+            setSecondsToResendAccumulated(secondsToResendAccumulated + 20)
             setShouldResend(false);
           }}
           >
@@ -101,7 +107,7 @@ export default function CodeVerification(){
 }
 
 const styles = StyleSheet.create({
-  back: {
+  backButton: {
     padding: 15,
     borderWidth: 0.5,
     borderColor: "#cdcdcd",
@@ -114,7 +120,7 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     alignItems: "center",
-    paddingHorizontal: 45,
+    paddingHorizontal: paddingContainer,
     backgroundColor: "white",
     justifyContent: "space-around",
   },
@@ -122,24 +128,30 @@ const styles = StyleSheet.create({
     width: "100%"
   },
   title: {
-    textAlign: "center",
-    fontWeight: "bold",
-    fontSize: 20,
-    marginVertical: "20%",
+    fontSize: 30,
+    marginBottom: "1%",
+    marginTop: '15%',
+    color: primaryColor,
+    fontFamily: 'Inter_700Bold'
   },
   messageView: {
     marginBottom: "10%",
   },
   message: {
-    color: "#333"
+    color: tertiaryColor,
+    fontSize: 16,
+    fontFamily: 'Inter_400Regular'
   },
   bold: {
-    fontWeight: "800", 
+    fontFamily: 'Inter_700Bold',
     color: "#000"
+  },
+  PinCodeInputView: {
+    alignItems: 'center',
   },
   codeCell: {
     borderWidth: 1,
-    borderColor: "gray",
+    borderColor: "#C1C1C1",
     borderRadius: 12,
   },
   codeCellFocused: {
@@ -151,11 +163,15 @@ const styles = StyleSheet.create({
   },
   buttonLabel: {
     color: "white",
-    fontWeight: "bold",
+    fontSize: 18,
+    fontFamily: 'Inter_700Bold'
   },
   bottomMessage: {
     alignSelf: "center", 
-    flexDirection: "row"
+    flexDirection: "row",
+    fontSize: 15,
+    color: tertiaryColor,
+    fontFamily: 'Inter_400Regular'
   }
 });
 

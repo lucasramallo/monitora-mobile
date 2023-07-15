@@ -65,14 +65,15 @@ const styles = StyleSheet.create({
   title: {
     color: primaryColor,
     fontSize: 30,
-    fontWeight: 'bold',
     textAlign: 'center',
+    fontFamily: 'Inter_700Bold'
   },
   subtitle: {
     fontSize: 17,
     color: '#949ba5',
     textAlign: 'center',
-    marginBottom: 20
+    marginBottom: 20,
+    fontFamily: 'Inter_400Regular'
   },
   buttonsView: {
     flexDirection: 'row',
@@ -87,7 +88,8 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     label: { 
       color: 'white', 
-      fontSize: 17
+      fontSize: 17,
+      fontFamily: 'Inter_500Medium'
     }
   },
   buttonLogin: {
@@ -99,7 +101,8 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     label: { 
       color: '#212226', 
-      fontSize: 17
+      fontSize: 17,
+      fontFamily: 'Inter_500Medium'
     }
   },
 });

@@ -6,12 +6,13 @@ import { FontAwesome, Entypo, Ionicons, Octicons,  } from '@expo/vector-icons';
 import HorarioItem from '../../../components/HourItem';
 import { Modalize } from 'react-native-modalize';
 import BottomSheet from '../../../components/BottomSheet';
+import { primaryColor } from '../../../assets/colors';
 
 export default function Hours() {
-  const userImageURL = "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQWwWf4v8y-sHDj4CzyJ07YQa6DlV4T1QyBvA&usqp=CAU";
+  const userImageURL = "https://github.com/lucasramallo/lucasramallo/assets/108425719/f846922d-276a-47c0-8994-d7e0d9251e6c";
   const userName = "João Lucas";
   const subject = "PDM";
-  const month = "Julho";
+  const correntMonth = "Julho";
   const thereIsPreviousMonth = true;
   const thereIsLaterMonth = false;
   const [hoursList, setHoursList] = useState([
@@ -75,7 +76,7 @@ export default function Hours() {
       </Text>
       
       <Text style={styles.monthTitle}>
-        {"Mês de " + month}
+        {"Mês de " + correntMonth}
       </Text>
       
       <View style={styles.topButtonsView}>
@@ -84,7 +85,7 @@ export default function Hours() {
             <FontAwesome 
               name="sliders" 
               size={16} 
-              color="#949BA5" 
+              color="#727272" 
             />
             <Text style={styles.topButtonsLeftLabels}>
               {"Filtros"}
@@ -95,7 +96,7 @@ export default function Hours() {
             <FontAwesome 
               name="sliders" 
               size={16} 
-              color="#949BA5" 
+              color="#727272" 
             />
             <Text style={styles.topButtonsLeftLabels}>
               {"Delete"}
@@ -188,7 +189,7 @@ export default function Hours() {
                 setHourItemToEditObject(item);
                 modalizeRef.current?.open();
               }
-            } />)
+            }/>)
           }
         />
       </View>
@@ -209,7 +210,7 @@ export default function Hours() {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    paddingTop: Constants.statusBarHeight+20,
+    paddingTop: Constants.statusBarHeight+25,
     paddingHorizontal: 20,
     backgroundColor: "#fff"
   },
@@ -227,19 +228,25 @@ const styles = StyleSheet.create({
     justifyContent: "space-between"
   },
   userName: {
-    fontWeight: "bold"
+    fontFamily: 'Inter_700Bold',
+    fontSize: 18
   },
   userSubject: {
     color: "#949BA5", 
-    fontSize: 12,
+    fontSize: 15,
+    fontFamily: 'Inter_400Regular'
   },
   title: {
-    fontWeight: "bold",
-    fontSize: 24,
-    marginVertical: 20
+    color: primaryColor,
+    fontSize: 26,
+    marginTop: 30,
+    marginBottom: 10,
+    fontFamily: 'Inter_700Bold'
   },
   monthTitle: {
-    color: "#949BA5"
+    color: "#949BA5",
+    fontSize: 16,
+    fontFamily: 'Inter_500Medium'
   },
   topButtonsView: {
     flexDirection: "row",
@@ -249,12 +256,13 @@ const styles = StyleSheet.create({
   },
   topButtonsViewLeft: {
     flexDirection: "row",
-    marginVertical: 15,
+    marginTop: 5,
+    marginBottom: 8,
     gap: 10
   },
   topButtonsLeftLabels: {
-    fontSize: 12, 
-    color: "#949BA5"
+    fontSize: 14, 
+    color: "#727272"
   },
   topButtons: {
     borderWidth: 1,
@@ -263,18 +271,21 @@ const styles = StyleSheet.create({
     borderRadius: 8,
     flexDirection: "row",
     alignItems: "center",
-    gap: 5,
+    gap: 7,
   },
   addHourItemButton: {
-    backgroundColor: "#000",
+    backgroundColor: primaryColor,
     flexDirection: "row",
     padding: 8,
+    paddingRight: 14, //gambiarra
     borderRadius: 8,
-    gap: 5,
-    alignItems: "center"
+    gap: 2,
+    alignItems: "center",
   },
   addHourItemButtonLabel: {
-    color: "#fff"
+    color: "#fff",
+    fontSize: 14,
+    fontFamily: 'Inter_400Regular'
   },
   filtersView: {
     flexDirection: "row",
@@ -288,7 +299,8 @@ const styles = StyleSheet.create({
     gap: 5
   },
   filterButtonsLabels: {
-    color: "#949BA5"
+    color: '#8C8C8C',
+    fontSize: 14
   },
   buttonBackForwardView: {
     flexDirection: "row",
@@ -300,7 +312,7 @@ const styles = StyleSheet.create({
     height: 25, 
     alignItems: "center", 
     justifyContent: "center",
-    backgroundColor: "#949BA5"
+    backgroundColor: "#F5F7F9"
   },
   pageButtonDisabled: {
     borderRadius: 50,  
