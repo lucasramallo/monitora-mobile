@@ -6,6 +6,7 @@ import { useNavigation } from '@react-navigation/native';
 import { primaryColor, secondaryColor} from '../../../assets/colors/index'
 import { useDispatch } from 'react-redux'
 import { logar } from '../../redux/user/slice';
+import { paddingContainer } from '../../../assets/constants';
 
 export default function Login() {
   const [registrationNumber, setRegistrationNumber] = useState('');
@@ -71,8 +72,8 @@ export default function Login() {
           </View>
     
           <TouchableOpacity 
-            onPress={() => navigation.navigate("PasswordRecovery")}
             style={styles.passwordRecoveryLink}
+            onPress={() => navigation.navigate("PasswordRecovery")}
           >
             <Text style={styles.linkLogin}>
               {"Esqueci minha senha"}
@@ -93,7 +94,7 @@ export default function Login() {
           style={styles.registerLink}
           onPress={() => navigation.navigate("Register")}
         >
-          <Text>
+          <Text style={{ fontFamily: 'Inter_500Medium', }}>
             {"Ainda não tem uma conta? "}
           </Text>
           <Text style={styles.signupLink}>
@@ -111,21 +112,25 @@ const styles = StyleSheet.create({
     flex: 1,
     backgroundColor: secondaryColor,
     paddingTop: Constants.statusBarHeight,
+    paddingHorizontal: paddingContainer,
   },
   form: {
     width: '100%',
     height: '100%',
-    padding: 45,
+    padding: 8,
     justifyContent: "space-between"
   },
   title: {
-    fontSize: 20,
-    fontWeight: "bold",
-    marginVertical: 45
+    fontSize: 26,
+    marginVertical: 45,
+    marginBottom: 50,
+    fontFamily: 'Inter_700Bold'
   },
   label: {
-    fontWeight: "bold",
-    marginBottom: 5
+    fontFamily: 'Inter_600SemiBold',
+    marginBottom: 5,
+    fontSize: 16,
+    color: '#4B4B4B'
   },
   inputs: {
     backgroundColor: secondaryColor,
@@ -133,7 +138,8 @@ const styles = StyleSheet.create({
     borderColor: '#dcdcdc',
     borderRadius: 12,
     padding: 15,
-    marginBottom: 20
+    marginBottom: 20,
+    height: 60
   },
   passwordInput: {
     width: "80%"
@@ -152,7 +158,8 @@ const styles = StyleSheet.create({
   },
   registerLink: {
     alignSelf: "center", 
-    flexDirection: "row"
+    flexDirection: "row",
+    marginBottom: '25%'
   },
   signupLink: {
     fontWeight: "bold"
@@ -166,11 +173,14 @@ const styles = StyleSheet.create({
     marginVertical: 25,
     label: {
       color: "white",
-      fontWeight: "bold",
+      fontSize: 16,
+      fontFamily: 'Inter_700Bold',
     }, 
   },
   linkLogin: {
     textDecorationLine: "underline",
-    marginBottom: 25
+    marginBottom: 25,
+    fontSize: 16,
+    fontFamily: 'Inter_500Medium',
   }
 });

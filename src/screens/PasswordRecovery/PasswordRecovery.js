@@ -2,8 +2,10 @@ import React, { useState } from 'react';
 import { StyleSheet, SafeAreaView, TextInput, View, TouchableOpacity, Text, Alert } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
 import { Ionicons } from '@expo/vector-icons';
+import { primaryColor, tertiaryColor } from '../../../assets/colors/index';
+import { paddingContainer } from '../../../assets/constants';
 
-export default function PasswordRecovery(){
+export default function PasswordRecovery() {
   const [email, setEmail] = useState('');
   const navigation = useNavigation();
 
@@ -37,7 +39,7 @@ export default function PasswordRecovery(){
         </View>
         <TextInput 
           placeholder="Digite seu E-mail"
-          placeholderTextColor="#A3A3A3"
+          placeholderTextColor={tertiaryColor}
           selectionColor="black"
           style={styles.input}
           value={email}
@@ -49,7 +51,7 @@ export default function PasswordRecovery(){
             <TouchableOpacity 
               style={styles.domain}
               onPress={adicionaDominio}>
-              <Text>
+              <Text style={{color: '#4D4D4D'}}>
                 {"@academico.ifpb.edu.br"}
               </Text>
             </TouchableOpacity>
@@ -68,7 +70,7 @@ export default function PasswordRecovery(){
         <TouchableOpacity 
           style={styles.loginLink}
           onPress={() => navigation.navigate("Login")}>
-          <Text>
+          <Text style={{ fontFamily: 'Inter_400Regular' }}>
             {"Lembrou sua senha? "}
           </Text>
           <Text style={styles.loginLinkBold}>
@@ -93,7 +95,7 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     alignItems: "center",
-    paddingHorizontal: 45,
+    paddingHorizontal: paddingContainer,
     backgroundColor: "white",
     justifyContent: "space-around",
   },
@@ -101,10 +103,16 @@ const styles = StyleSheet.create({
     width: "100%"
   },
   title: {
-    textAlign: "center",
-    fontWeight: "bold",
-    fontSize: 20,
-    marginVertical: "20%",
+    fontFamily: 'Inter_700Bold',
+    fontSize: 28,
+    marginBottom: "1%",
+    marginTop: '15%',
+    color: primaryColor,
+  },
+  message: {
+    color: tertiaryColor,
+    fontSize: 16,
+    fontFamily: 'Inter_400Regular'
   },
   input: {
     backgroundColor: "#fff",
@@ -116,10 +124,10 @@ const styles = StyleSheet.create({
     width: "100%",
   },
   domain: {
-    padding: 3,
+    padding: 10,
     margin: 5,
     borderWidth: 0.5,
-    borderColor: "black",
+    borderColor: "#dcdcdc",
     borderRadius: 12,
     alignSelf: "center"
   },
@@ -132,20 +140,19 @@ const styles = StyleSheet.create({
     marginTop: 45,
     label: {
       color: "white",
-      fontWeight: "bold",
+      fontSize: 18,
+      fontFamily: 'Inter_700Bold'
     },
   },
   loginLink: {
     alignSelf: "center", 
-    flexDirection: "row"
+    flexDirection: "row",
+    fontFamily: 'Inter_400Regular'
   },
   loginLinkBold: {
-    fontWeight: "bold"
+    fontFamily: 'Inter_700Bold'
   },
   viewMessage: {
     marginVertical: 5,
-  },
-  message: {
-    color: "#333"
   }
 });

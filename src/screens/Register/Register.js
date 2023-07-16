@@ -108,7 +108,7 @@ export default function Register() {
   
       <TouchableOpacity style={styles.linkLogin}
         onPress={() => navigation.navigate("Login")}>
-        <Text>
+        <Text style={{fontFamily: 'Inter_400Regular'}}>
           {"Já tem uma conta? "}
         </Text>
         <Text style={styles.linkLoginBold}>
@@ -132,12 +132,12 @@ const styles = StyleSheet.create({
   },
   title: {
     fontSize: 20,
-    fontWeight: "bold",
-    marginVertical: 45
+    marginVertical: 45,
+    fontFamily: 'Inter_700Bold'
   },
   label: {
-    fontWeight: "bold",
-    marginBottom: 5
+    marginBottom: 5,
+    fontFamily: 'Inter_600SemiBold',
   },
   inputs: {
     backgroundColor: secondaryColor,
@@ -174,7 +174,7 @@ const styles = StyleSheet.create({
     marginVertical: 25,
     label: {
       color: "white",
-      fontWeight: "bold",
+      fontFamily: 'Inter_700Bold'
     },
   },
   linkLogin: {
