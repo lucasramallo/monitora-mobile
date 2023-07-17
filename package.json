@@ -19,7 +19,7 @@
     "@react-navigation/native-stack": "^6.9.13",
     "@reduxjs/toolkit": "^1.9.5",
     "antd": "^5.6.3",
-    "expo": "^49.0.0",
+    "expo": "^48.0.0",
     "expo-constants": "~14.4.2",
     "expo-font": "~11.4.0",
     "expo-status-bar": "~1.6.0",
