@@ -1,10 +1,10 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { StyleSheet, SafeAreaView, TextInput, View, TouchableOpacity, Text } from "react-native";
 import { Picker } from '@react-native-picker/picker';
 import { useNavigation } from "@react-navigation/native";
 import { paddingContainer } from "../../../assets/constants";
 import { Ionicons } from "@expo/vector-icons";
-import { primaryColor, tertiaryColor } from "../../../assets/colors";
+import { primaryColor, secondaryColor, tertiaryColor } from "../../../assets/colors";
 
 export default function SubjectSelection() {
 	const [subject, setSubject] = useState("PDM");
@@ -62,9 +62,9 @@ export default function SubjectSelection() {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    alignItems: "center",
     paddingHorizontal: paddingContainer,
     backgroundColor: "white",
+    padding: 80
   },
   backButton: {
     padding: 15,
