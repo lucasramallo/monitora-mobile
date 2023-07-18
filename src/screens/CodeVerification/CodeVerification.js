@@ -19,7 +19,8 @@ export default function CodeVerification(){
   
   const compareCode = (typedCode) => {
     if(typedCode == generatedCode){
-      Alert.alert("Autenticado!")
+      Alert.alert("Autenticado!");
+      navigation.navigate("NewPassword");
     } else {
       codeInputRef.current.shake();
     }
