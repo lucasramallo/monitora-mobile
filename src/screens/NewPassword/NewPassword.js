@@ -6,23 +6,23 @@ import { paddingContainer } from "../../../assets/constants";
 import { Octicons } from "@expo/vector-icons";
 import { primaryColor, secondaryColor, tertiaryColor } from "../../../assets/colors";
 
-export default function NewPassword(){
-	const [password, setPassword] = useState('');
-	const [passwordCopy, setPasswordCopy] = useState('');
-	const [showPassword, setShowPassword] = useState(true);
-	const navigation = useNavigation();
-	
-	const handleSubmit = () => {
-		navigation.navigate("Home");
-	};
-	
-	return (
-		<SafeAreaView style={styles.container}>
-			<Text style={styles.title}>
-				{"Redefinir senha"}
-			</Text>
-			
-			<Text style={styles.label}>
+export default function NewPassword() {
+  const [password, setPassword] = useState('');
+  const [passwordCopy, setPasswordCopy] = useState('');
+  const [showPassword, setShowPassword] = useState(true);
+  const navigation = useNavigation();
+
+  const handleSubmit = () => {
+    navigation.navigate("Home");
+  };
+
+  return (
+    <SafeAreaView style={styles.container}>
+      <Text style={styles.title}>
+        {"Redefinir senha"}
+      </Text>
+
+      <Text style={styles.label}>
         {"Nova Senha"}
       </Text>
       <View style={styles.input} >
@@ -36,15 +36,15 @@ export default function NewPassword(){
           secureTextEntry={!showPassword}
         />
         <TouchableOpacity onPress={() => setShowPassword(!showPassword)}>
-          <Octicons 
-            name={showPassword ? "eye-closed" : "eye"} 
-            size={18} 
-            color="black" 
-            styles={styles.eyeIcon}/>
+          <Octicons
+            name={showPassword ? "eye-closed" : "eye"}
+            size={18}
+            color="black"
+            styles={styles.eyeIcon} />
         </TouchableOpacity>
       </View>
-			
-			<Text style={styles.label}>
+
+      <Text style={styles.label}>
         {"De novo"}
       </Text>
       <View style={styles.input} >
@@ -58,19 +58,19 @@ export default function NewPassword(){
           secureTextEntry={!showPassword}
         />
         <TouchableOpacity onPress={() => setShowPassword(!showPassword)}>
-          <Octicons 
-            name={showPassword ? "eye-closed" : "eye"} 
-            size={18} 
-            color="black" 
-            styles={styles.eyeIcon}/>
+          <Octicons
+            name={showPassword ? "eye-closed" : "eye"}
+            size={18}
+            color="black"
+            styles={styles.eyeIcon} />
         </TouchableOpacity>
       </View>
-			
-			<TouchableOpacity onPress={handleSubmit} style={styles.button}>
-				<Text style={styles.button.label}>{"Redefinir"}</Text>
-			</TouchableOpacity>
-		</SafeAreaView>
-	);
+
+      <TouchableOpacity onPress={handleSubmit} style={styles.button}>
+        <Text style={styles.button.label}>{"Redefinir"}</Text>
+      </TouchableOpacity>
+    </SafeAreaView>
+  );
 }
 
 const styles = StyleSheet.create({
@@ -112,9 +112,9 @@ const styles = StyleSheet.create({
     borderRadius: 12,
     padding: 15,
     marginVertical: 25,
-    label: {
-      color: "white",
-      fontFamily: 'Inter_700Bold'
-    },
+  },
+  "button.label": {
+    color: "white",
+    fontFamily: 'Inter_700Bold'
   },
 });
