@@ -15,6 +15,7 @@ export default function Register() {
 
   const handleSubmit = () => {
     Alert.alert('Cadastro realizado com sucesso!', `Nome: ${name}\nMatrícula: ${registrationNumber}\nDisciplina:${subject}`);
+    navigation.navigate("SubjectSelection")
   };
 
   return (
