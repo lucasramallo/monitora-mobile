@@ -7,7 +7,7 @@ import PasswordRecovery from '../screens/PasswordRecovery/PasswordRecovery';
 import CodeVerification from '../screens/CodeVerification/CodeVerification';
 import { Home } from '../screens/Home/Home';
 import Horarios from '../screens/Hours/Hours';
-import { SubjectSelection } from '../screens/SubjectSelection/SubjectSelection';
+import SubjectSelection from '../screens/SubjectSelection/SubjectSelection';
 
 const Stack = createNativeStackNavigator();
 
