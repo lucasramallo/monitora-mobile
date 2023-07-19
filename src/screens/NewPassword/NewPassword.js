@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { StyleSheet, SafeAreaView, TextInput, View, TouchableOpacity, Text } from "react-native";
+import { StyleSheet, SafeAreaView, TextInput, View, TouchableOpacity, Text, Alert } from "react-native";
 import { Picker } from '@react-native-picker/picker';
 import { useNavigation } from "@react-navigation/native";
 import { paddingContainer } from "../../../assets/constants";
@@ -11,7 +11,7 @@ export default function NewPassword(){
 	const [passwordCopy, setPasswordCopy] = useState('');
 	const [showPassword, setShowPassword] = useState(true);
 	const [disableCopy, setDisableCopy] = useState(true);
-	const [strongness, setStrongness] = useState("No mínimo 8 caracteres")
+	const [strongness, setStrongness] = useState("No mínimo 8 caracteres");
 	const navigation = useNavigation();
 	
 	const handleValidation = (value) => {
@@ -32,7 +32,15 @@ export default function NewPassword(){
   
 	
 	const handleSubmit = () => {
-		navigation.navigate("Home");
+		if(password.length >= 8){
+			if(password == passwordCopy){
+				navigation.navigate("Home");
+			} else {
+				Alert.alert("Inválido", "As senhas devem ser iguais!");
+			}
+		} else {
+			Alert.alert("Inválido!", "A senha deve conter, no mínimo, 8 caracteres!");
+		}
 	};
 	
 	return (
@@ -106,6 +114,7 @@ export default function NewPassword(){
 			<TouchableOpacity onPress={handleSubmit} style={styles.button}>
 				<Text style={styles.button.label}>{"Redefinir"}</Text>
 			</TouchableOpacity>
+			
 		</SafeAreaView>
 	);
 }
@@ -156,6 +165,7 @@ const styles = StyleSheet.create({
       fontFamily: 'Inter_700Bold'
     },
   },
+  
 });
 
 const validation = passwordStrongness => {
