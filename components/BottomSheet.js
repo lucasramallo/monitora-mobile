@@ -280,4 +280,4 @@ const warnStyles = warn => StyleSheet.create({
   warn: {
     color: "#B00000"
   }
-})
+});
