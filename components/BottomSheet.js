@@ -8,18 +8,25 @@ export default function BottomSheet({ onConfirm, hourItemToEditObject }) {
   const newItem = {
     id: parseInt(Math.random()*128),
     description: "",
-    date: "Date",
+    date: "Data",
     workload: "Início/Final",
     remote: false
   };
   const [itemObject, setItemObject] = useState(hourItemToEditObject || newItem);
+  const [warnDate, setWarnDate] = useState(null);
+  const [warnStartTime, setWarnStartTime] = useState(null);
+  const [warnEndTime, setWarnEndTime] = useState(null);
   const [showDatePicker, setShowDatePicker] = useState(false);
-  const [showStartTimePicker, setStartTimePicker] = useState(false);
-  const [showEndTimePicker, setEndTimePicker] = useState(false);
+  const [showStartTimePicker, setShowStartTimePicker] = useState(false);
+  const [showEndTimePicker, setShowEndTimePicker] = useState(false);
   const { id, description, date, workload, remote } = itemObject;
   const [startTime, endTime] = workload.split("/");
   
   const handleChange = (prop, value) => {
+    setWarnEndTime(null);
+    setWarnStartTime(null);
+    setWarnDate(null);
+    
     setItemObject({
       ...itemObject,
       [prop]: value
@@ -27,7 +34,19 @@ export default function BottomSheet({ onConfirm, hourItemToEditObject }) {
   };
   
   const handleConfirm = () => {
-    onConfirm(itemObject);
+    if(itemObject.date != "Data" && startTime != "Início" && endTime != "Final"){
+      onConfirm(itemObject);
+    } else {
+      if(itemObject.date == "Data"){
+        setWarnDate(true);
+      }
+      if(startTime == "Início"){
+        setWarnStartTime(true);
+      }
+      if(endTime == "Final"){
+        setWarnEndTime(true);
+      }
+    }
   }
   
   const formatTime = time => time.toLocaleTimeString([], { 
@@ -61,6 +80,8 @@ export default function BottomSheet({ onConfirm, hourItemToEditObject }) {
           onConfirm={(chosenDate) => {
             handleChange("date", chosenDate.toLocaleDateString());
             setShowDatePicker(false);
+            setWarnStartTime(warnStartTime);
+            setWarnEndTime(warnEndTime);
           }}
           onCancel={() => setShowDatePicker(false)}
         />
@@ -68,17 +89,21 @@ export default function BottomSheet({ onConfirm, hourItemToEditObject }) {
         <TouchableOpacity 
           style={[
             styles.inputs, 
-            styles.topInputs
+            styles.topInputs,
+            warnStyles(warnDate).input
           ]}
-          onPress={() => setShowDatePicker(true)}
+          onPress={() => {
+            setShowDatePicker(true);
+            setWarnDate(null);
+          }}
           >
-          <Text style={date == "Date" ? styles.placeholderText : {}}>
+          <Text style={date == "Data" ? styles.placeholderText : {}}>
             {date}
           </Text>
           <Feather 
             name="calendar" 
             size={24} 
-            color="#949BA5" 
+            color={warnDate ? "#B66262" : "#949BA5"}
           />
         </TouchableOpacity>
         
@@ -87,9 +112,17 @@ export default function BottomSheet({ onConfirm, hourItemToEditObject }) {
           mode="time"
           onConfirm={(chosenStartTime) => {
             handleChange("workload", formatTime(chosenStartTime) + "/" + endTime);
-            setStartTimePicker(false);
+            setShowStartTimePicker(false);
+            setWarnDate(warnDate);
+            setWarnEndTime(warnEndTime);
+            setWarnStartTime(null);
           }}
-          onCancel={() => setStartTimePicker(false)}
+          onCancel={() => {
+            setShowStartTimePicker(false);
+            setWarnDate(warnDate);
+            setWarnEndTime(warnEndTime);
+            setWarnStartTime(warnStartTime);
+          }}
         />
         
         <DateTimePickerModal
@@ -97,18 +130,30 @@ export default function BottomSheet({ onConfirm, hourItemToEditObject }) {
           mode="time"
           onConfirm={(chosenEndTime) => {
             handleChange("workload", startTime + "/" + formatTime(chosenEndTime));
-            setEndTimePicker(false);
+            setShowEndTimePicker(false);
+            setWarnDate(warnDate);
+            setWarnStartTime(warnStartTime);
+            setWarnEndTime(null);
           }}
-          onCancel={() => setEndTimePicker(false)}
+          onCancel={() => {
+            setShowEndTimePicker(false);
+            setWarnDateTime(warnDateTime);
+            setWarnStartTime(warnStartTime);
+            setWarnEndTime(warnEndTime);
+          }}
         />
         
         <View style={styles.timeInputsView}>
           <TouchableOpacity 
             style={[
               styles.inputs, 
-              styles.timeInputs
+              styles.timeInputs,
+              warnStyles(warnStartTime).input
             ]}
-            onPress={() => setStartTimePicker(true)}
+            onPress={() => {
+              setShowStartTimePicker(true);
+              setWarnStartTime(null);
+            }}
             >
             <Text style={startTime == "Início" ? styles.placeholderText: {}}>
               {startTime}
@@ -116,16 +161,20 @@ export default function BottomSheet({ onConfirm, hourItemToEditObject }) {
             <Feather 
               name="clock" 
               size={24} 
-              color="#949BA5" 
+              color={warnStartTime ? "#B66262" : "#949BA5"}
             />
           </TouchableOpacity>
           
           <TouchableOpacity 
             style={[
               styles.inputs, 
-              styles.timeInputs
+              styles.timeInputs,
+              warnStyles(warnEndTime).input
             ]}
-            onPress={() => setEndTimePicker(true)}
+            onPress={() => {
+              setShowEndTimePicker(true);
+              setWarnEndTime(null);
+            }}
             >
             <Text style={endTime == "Final" ? styles.placeholderText: {}}>
               {endTime}
@@ -133,7 +182,7 @@ export default function BottomSheet({ onConfirm, hourItemToEditObject }) {
             <Feather 
               name="clock" 
               size={24} 
-              color="#949BA5" 
+              color={warnEndTime ? "#B66262" : "#949BA5"}
             />
           </TouchableOpacity>
         </View>
@@ -223,3 +272,12 @@ const styles = StyleSheet.create({
     }
   }
 });
+
+const warnStyles = warn => StyleSheet.create({
+  input: {
+    borderColor: warn ? "#B00000" : "#DCDCDC"
+  },
+  warn: {
+    color: "#B00000"
+  }
+})
