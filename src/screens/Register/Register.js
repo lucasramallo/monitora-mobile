@@ -10,11 +10,10 @@ export default function Register() {
   const [registrationNumber, setRegistrationNumber] = useState('');
   const [password, setPassword] = useState('');
   const [showPassword, setShowPassword] = useState(false); 
-  const [subject, setSubject] = useState('PDM');
   const navigation = useNavigation();
 
   const handleSubmit = () => {
-    Alert.alert('Cadastro realizado com sucesso!', `Nome: ${name}\nMatrícula: ${registrationNumber}\nDisciplina:${subject}`);
+    Alert.alert('Cadastro realizado com sucesso!', `Nome: ${name}\nMatrícula: ${registrationNumber}`);
     navigation.navigate("SubjectSelection")
   };
 
@@ -51,6 +50,19 @@ export default function Register() {
         />
   
         <Text style={styles.label}>
+          {"Email"}
+        </Text>
+        <TextInput
+          placeholder="Ex.: Exemplo@academico.ifpb.edu.br"
+          placeholderTextColor="#A3A3A3"
+          selectionColor="black"
+          onChangeText={text => setRegistrationNumber(text)}
+          value={registrationNumber}
+          keyboardType="numeric"
+          style={styles.inputs}
+        />
+  
+        <Text style={styles.label}>
           {"Senha"}
         </Text>
         <View
@@ -74,27 +86,6 @@ export default function Register() {
               color="black" 
               styles={styles.eyeIcon}/>
           </TouchableOpacity>
-        </View>
-  
-        <Text style={styles.label}>
-          {"Disciplina"}
-        </Text>
-        <View style={[
-          styles.inputs, 
-          { padding: 0 }
-         ]}>
-          <Picker
-            selectedValue={subject}
-            onValueChange={(item) => setSubject(item)}
-            mode="dropdown"
-            style={styles.picker}
-          >
-            <Picker.Item label="PDM" value="PDM" />
-            <Picker.Item label="DAW II" value="DAW II" />
-            <Picker.Item label="Estrutura de Dados" value="ED" />
-            <Picker.Item label="Física" value="Física" />
-            <Picker.Item label="Matemática" value="Matemática" />
-          </Picker>
         </View>
   
         <TouchableOpacity 
@@ -160,11 +151,6 @@ const styles = StyleSheet.create({
   },
   eyeIcon: {
     margin: 15
-  },
-  picker: {
-    border: "none", 
-    outline: "none", 
-    background: "none" 
   },
   button: {
     width: "100%",
