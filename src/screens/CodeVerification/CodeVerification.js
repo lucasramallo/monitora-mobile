@@ -16,7 +16,6 @@ export default function CodeVerification({ route, navigationParam }){
   const navigation = useNavigation(); 
   const codeInputRef = useRef();
   
-  
   const compareCode = (typedCode) => {
     if(typedCode == generatedCode){
       Alert.alert("Autenticado!");
