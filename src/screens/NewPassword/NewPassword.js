@@ -160,12 +160,11 @@ const styles = StyleSheet.create({
     borderRadius: 12,
     padding: 15,
     marginVertical: 25,
-    label: {
-      color: "white",
-      fontFamily: 'Inter_700Bold'
-    },
   },
-  
+  "button.label": {
+    color: "white",
+    fontFamily: 'Inter_700Bold'
+  },
 });
 
 const validation = passwordStrongness => {
