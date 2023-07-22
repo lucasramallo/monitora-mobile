@@ -4,6 +4,7 @@ import { useSelector } from 'react-redux';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import Hours from '../screens//Hours/Hours';
 import HomeScreen from '../screens/Home/Home';
+import Profile from '../screens/Profile/Profile';
 import { Feather } from '@expo/vector-icons';
 
 const Tab = createBottomTabNavigator();
@@ -42,7 +43,7 @@ export default function TabRouter() {
         }} />
       <Tab.Screen 
         name="Profile" 
-        component={HomeScreen} 
+        component={Profile} 
         options={{ 
           tabBarLabel: "Perfil",
           tabBarIcon: ({ focused, color, size }) => 
