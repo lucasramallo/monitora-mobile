@@ -23,7 +23,7 @@ export default function Login() {
       setWarn1(null);
       setWarn2(null);
       dispatch(logar(registrationNumber));
-      navigation.navigate("Horarios");
+      navigation.navigate("Home");
     } else if(registrationNumber.length != 12){
       Alert.alert("Matrícula inválida", "Digite uma matrícula válida!");
       setWarn1("Matricula inválida");
