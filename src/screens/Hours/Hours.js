@@ -3,9 +3,9 @@ import { StyleSheet, Switch, SafeAreaView, TextInput, View, TouchableOpacity, Im
 import Constants from 'expo-constants';
 import { useNavigation } from '@react-navigation/native';
 import { FontAwesome, Entypo, Ionicons, Octicons,  } from '@expo/vector-icons';
-import HorarioItem from '../../../components/HourItem';
+import HorarioItem from '../../components/HourItem';
 import { Modalize } from 'react-native-modalize';
-import BottomSheet from '../../../components/BottomSheet';
+import BottomSheet from '../../components/BottomSheet';
 import { primaryColor } from '../../../assets/colors';
 
 export default function Hours() {

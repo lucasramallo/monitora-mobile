@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { StyleSheet, View, TouchableOpacity, Text } from 'react-native';
 import { MaterialCommunityIcons } from '@expo/vector-icons';
 import BouncyCheckbox from "react-native-bouncy-checkbox";
-import { primaryColor } from '../assets/colors';
+import { primaryColor } from '../../assets/colors';
 
 export default function HorarioItem ({ item, onEditPress }) {
   
