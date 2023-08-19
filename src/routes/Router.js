@@ -1,30 +1,12 @@
 import React from 'react';
-import { createNativeStackNavigator } from '@react-navigation/native-stack';
-import Start from '../screens/Start/Start';
-import Register from '../screens/Register/Register';
-import Login from '../screens/Login/Login'; 
-import PasswordRecovery from '../screens/PasswordRecovery/PasswordRecovery';
-import CodeVerification from '../screens/CodeVerification/CodeVerification';
-import NewPassword from '../screens/NewPassword/NewPassword';
-import TabNavigator from './TabRouter';
-import Horarios from '../screens/Hours/Hours';
-import SubjectSelection from '../screens/SubjectSelection/SubjectSelection';
-
-const Stack = createNativeStackNavigator();
+import StackNavigator from './StackNavigator'
+import AuthStack from './AuthStack'
 
 export default function Router() {
+
+  const auth = false // Para mudar a stack, basta trocar o valor da flag (true ou false)
+
   return (
-    <Stack.Navigator>
-        <Stack.Screen name="Start" options={{headerShown: false}} component={Start} />
-        <Stack.Screen name="Login" options={{headerShown: false}} component={Login} />
-        <Stack.Screen name="PasswordRecovery" options={{headerShown: false}} component={PasswordRecovery} />
-        <Stack.Screen name="CodeVerification" options={{headerShown: false}} component={CodeVerification} />
-        <Stack.Screen name="NewPassword" options={{headerShown: false}} component={NewPassword} />
-        <Stack.Screen name="Register" options={{headerShown: false}} component={Register} />
-        <Stack.Screen name="SubjectSelection" options={{headerShown: false}} component={SubjectSelection} />
-        <Stack.Screen name="Home" options={{headerShown: false}} component={TabNavigator} />
-        {/* A tela abaixo deve estar dentro da TabNavigation em Home */}
-        <Stack.Screen name="Horarios" options={{headerShown: false}} component={Horarios} />
-    </Stack.Navigator>
+    auth ? <StackNavigator /> : <AuthStack />
   );
 }

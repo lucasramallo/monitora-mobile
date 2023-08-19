@@ -2,7 +2,7 @@ import React, { useState, useEffect, useRef } from 'react';
 import { StyleSheet, Switch, SafeAreaView, TextInput, View, TouchableOpacity, Image, Text, FlatList } from 'react-native';
 import { Feather } from '@expo/vector-icons';
 import DateTimePickerModal from "react-native-modal-datetime-picker";
-import { primaryColor } from '../assets/colors';
+import { primaryColor } from '../../assets/colors';
 
 export default function BottomSheet({ onConfirm, hourItemToEditObject }) {
   const newItem = {
