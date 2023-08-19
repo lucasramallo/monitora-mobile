@@ -6,7 +6,7 @@ import Login from '../screens/Login/Login';
 import PasswordRecovery from '../screens/PasswordRecovery/PasswordRecovery';
 import CodeVerification from '../screens/CodeVerification/CodeVerification';
 import NewPassword from '../screens/NewPassword/NewPassword';
-import { Home } from '../screens/Home/Home';
+import TabNavigator from './TabRouter';
 import Horarios from '../screens/Hours/Hours';
 import SubjectSelection from '../screens/SubjectSelection/SubjectSelection';
 
@@ -22,7 +22,7 @@ export default function Router() {
         <Stack.Screen name="NewPassword" options={{headerShown: false}} component={NewPassword} />
         <Stack.Screen name="Register" options={{headerShown: false}} component={Register} />
         <Stack.Screen name="SubjectSelection" options={{headerShown: false}} component={SubjectSelection} />
-        <Stack.Screen name="Home" options={{headerShown: false}} component={Home} />
+        <Stack.Screen name="Home" options={{headerShown: false}} component={TabNavigator} />
         {/* A tela abaixo deve estar dentro da TabNavigation em Home */}
         <Stack.Screen name="Horarios" options={{headerShown: false}} component={Horarios} />
     </Stack.Navigator>

@@ -9,13 +9,32 @@ export default function Register() {
   const [name, setName] = useState('');
   const [registrationNumber, setRegistrationNumber] = useState('');
   const [password, setPassword] = useState('');
+  const [email, setEmail] = useState('');
+  const [warnName, setWarnName] = useState(null);
+  const [warnRegistrationNumber, setWarnRegistrationNumber] = useState(null);
+  const [warnPassword, setWarnPassword] = useState(null);
+  const [warnEmail, setWarnEmail] = useState(null);
   const [showPassword, setShowPassword] = useState(false); 
-  const [subject, setSubject] = useState('PDM');
   const navigation = useNavigation();
 
   const handleSubmit = () => {
-    Alert.alert('Cadastro realizado com sucesso!', `Nome: ${name}\nMatrícula: ${registrationNumber}\nDisciplina:${subject}`);
-    navigation.navigate("SubjectSelection")
+    if(name.length > 2 && registrationNumber.length == 12 && email.match(/^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$/g) && password.length >= 8){
+      Alert.alert('Cadastro realizado com sucesso!', `Nome: ${name}\nMatrícula: ${registrationNumber}`);
+      navigation.navigate("SubjectSelection");
+    } else {
+      if(name.length < 3){
+        setWarnName("Nome inválido");
+      }
+      if(registrationNumber.length != 12){
+        setWarnRegistrationNumber("Matrícula inválida")
+      }
+      if(!email.match(/^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$/g)){
+        setWarnEmail("Email inválido");
+      }
+      if(password.length < 8){
+        setWarnPassword("Senha inválida");
+      }
+    }
   };
 
   return (
@@ -31,11 +50,18 @@ export default function Register() {
         <TextInput
           placeholder="Nome completo"
           placeholderTextColor="#A3A3A3"
-          selectionColor="black"
-          onChangeText={text => setName(text)}
+          cursorColor="black"
+          onChangeText={text => {
+            setName(text);
+            setWarnName(null);
+          }}
           value={name}
-          style={styles.inputs}
+          style={[
+            styles.inputs,
+            warnStyles(warnName).input
+          ]}
         />
+        {warnName && <Text style={warnStyles(warnName).warn}>{warnName}</Text>}
   
         <Text style={styles.label}>
           {"Matrícula"}
@@ -43,12 +69,39 @@ export default function Register() {
         <TextInput
           placeholder="Ex.: 202019600020"
           placeholderTextColor="#A3A3A3"
-          selectionColor="black"
-          onChangeText={text => setRegistrationNumber(text)}
+          cursorColor="black"
+          onChangeText={text => {
+            setRegistrationNumber(text);
+            setWarnRegistrationNumber(null);
+          }}
           value={registrationNumber}
           keyboardType="numeric"
-          style={styles.inputs}
+          style={[
+            styles.inputs,
+            warnStyles(warnRegistrationNumber).input
+          ]}
         />
+        {warnRegistrationNumber && <Text style={warnStyles(warnRegistrationNumber).warn}>{warnRegistrationNumber}</Text>}
+  
+        <Text style={styles.label}>
+          {"Email"}
+        </Text>
+        <TextInput
+          placeholder="Ex.: Exemplo@academico.ifpb.edu.br"
+          placeholderTextColor="#A3A3A3"
+          autoComplete="email"
+          cursorColor="black"
+          onChangeText={text => {
+            setEmail(text);
+            setWarnEmail(null);
+          }}
+          value={email}
+          style={[
+            styles.inputs,
+            warnStyles(warnEmail).input
+          ]}
+        />
+        {warnEmail && <Text style={warnStyles(warnEmail).warn}>{warnEmail}</Text>}
   
         <Text style={styles.label}>
           {"Senha"}
@@ -56,13 +109,17 @@ export default function Register() {
         <View
           style={[
             styles.password, 
-            styles.inputs
+            styles.inputs,
+            warnStyles(warnPassword).input
           ]}>
           <TextInput
             placeholder="Senha"
             placeholderTextColor="#A3A3A3"
-            selectionColor="black"
-            onChangeText={text => setPassword(text)}
+            cursorColor="black"
+            onChangeText={text => {
+              setPassword(text);
+              setWarnPassword(null);
+            }}
             value={password}
             style={styles.passwordInput}
             secureTextEntry={!showPassword}
@@ -75,27 +132,7 @@ export default function Register() {
               styles={styles.eyeIcon}/>
           </TouchableOpacity>
         </View>
-  
-        <Text style={styles.label}>
-          {"Disciplina"}
-        </Text>
-        <View style={[
-          styles.inputs, 
-          { padding: 0 }
-         ]}>
-          <Picker
-            selectedValue={subject}
-            onValueChange={(item) => setSubject(item)}
-            mode="dropdown"
-            style={styles.picker}
-          >
-            <Picker.Item label="PDM" value="PDM" />
-            <Picker.Item label="DAW II" value="DAW II" />
-            <Picker.Item label="Estrutura de Dados" value="ED" />
-            <Picker.Item label="Física" value="Física" />
-            <Picker.Item label="Matemática" value="Matemática" />
-          </Picker>
-        </View>
+        {warnPassword && <Text style={warnStyles(warnPassword).warn}>{warnPassword}</Text>}
   
         <TouchableOpacity 
           onPress={handleSubmit}
@@ -161,11 +198,6 @@ const styles = StyleSheet.create({
   eyeIcon: {
     margin: 15
   },
-  picker: {
-    border: "none", 
-    outline: "none", 
-    background: "none" 
-  },
   button: {
     width: "100%",
     backgroundColor: primaryColor,
@@ -184,5 +216,16 @@ const styles = StyleSheet.create({
   },
   linkLoginBold: {
     fontWeight: "bold"
+  }
+});
+
+const warnStyles = warn => StyleSheet.create({
+  input: {
+    borderColor: warn ? "#B00000" : "#DCDCDC",
+    marginBottom: warn ? 0 : 20
+  },
+  warn: {
+    color: "#B00000",
+    marginBottom: 20
   }
 });

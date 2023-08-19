@@ -12,15 +12,25 @@ export default function Login() {
   const [registrationNumber, setRegistrationNumber] = useState('');
   const [password, setPassword] = useState('');
   const [showPassword, setShowPassword] = useState(false);
+  const [warn1, setWarn1] = useState(null);
+  const [warn2, setWarn2] = useState(null);
   const navigation = useNavigation();
 
   const dispatch = useDispatch();
 
   const handleSubmit = () => {
-    dispatch(logar(registrationNumber))
-
-    navigation.navigate("Horarios")
-    // Alert.alert('Login realizado com sucesso!', `Matrícula: ${registrationNumber}`);
+    if(registrationNumber.length == 12 && password.length >= 8){
+      setWarn1(null);
+      setWarn2(null);
+      dispatch(logar(registrationNumber));
+      navigation.navigate("Home");
+    } else if(registrationNumber.length != 12){
+      Alert.alert("Matrícula inválida", "Digite uma matrícula válida!");
+      setWarn1("Matricula inválida");
+    } else {
+      Alert.alert("Senha inválida", "Digite sua senha!");
+      setWarn2("Senha inválida");
+    }
   };
   
   return (
@@ -38,11 +48,18 @@ export default function Login() {
             placeholder="Ex.: 202019600020"
             placeholderTextColor="#A3A3A3"
             selectionColor="black"
-            onChangeText={text => setRegistrationNumber(text)}
+            onChangeText={text => {
+              setRegistrationNumber(text);
+              setWarn1(null);
+            }}
             value={registrationNumber}
             keyboardType="numeric"
-            style={styles.inputs}
+            style={[
+              styles.inputs,
+              warnStyles(warn1).input
+            ]}
           />
+          {warn1 && <Text style={warnStyles(warn1).warn}>{warn1}</Text>}
     
           <Text style={styles.label}>
             {"Senha"}
@@ -50,14 +67,18 @@ export default function Login() {
           <View
             style={[
               styles.password, 
-              styles.inputs
+              styles.inputs,
+              warnStyles(warn2).input
             ]}
           >
             <TextInput
               placeholder="Senha"
               placeholderTextColor="#A3A3A3"
               selectionColor="black"
-              onChangeText={text => setPassword(text)}
+              onChangeText={text => {
+                setPassword(text);
+                setWarn2(null);
+              }}
               value={password}
               style={styles.passwordInput}
               secureTextEntry={!showPassword}
@@ -70,6 +91,7 @@ export default function Login() {
                 styles={styles.eyeIcon}/>
             </TouchableOpacity>
           </View>
+          {warn2 && <Text style={warnStyles(warn2).warn}>{warn2}</Text>}
     
           <TouchableOpacity 
             style={styles.passwordRecoveryLink}
@@ -136,9 +158,9 @@ const styles = StyleSheet.create({
     backgroundColor: secondaryColor,
     borderWidth: 1,
     borderColor: '#dcdcdc',
+    marginBottom: 20,
     borderRadius: 12,
     padding: 15,
-    marginBottom: 20,
     height: 60
   },
   passwordInput: {
@@ -183,4 +205,16 @@ const styles = StyleSheet.create({
     fontSize: 16,
     fontFamily: 'Inter_500Medium',
   }
+});
+
+const warnStyles = warn => StyleSheet.create({
+	input: {
+		borderColor: warn ? "#B00000" : "#DCDCDC",
+		marginBottom: warn ? 0 : 20
+	},
+	warn: {
+		color: "#B00000",
+		marginLeft: 12,
+		marginBottom: 20
+	}
 });

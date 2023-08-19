@@ -6,8 +6,8 @@ import SmoothPinCodeInput from "react-native-smooth-pincode-input";
 import { paddingContainer } from "../../../assets/constants";
 import { primaryColor, tertiaryColor } from "../../../assets/colors";
 
-export default function CodeVerification(){
-  const email = "raykkoner@gmail.com";
+export default function CodeVerification({ route, navigationParam }){
+  const { email } = route.params;
   const generatedCode = "12345";
   const [secondsToResend, setSecondsToResend] = useState(20);
   const [secondsToResendAccumulated, setSecondsToResendAccumulated] = useState(20);

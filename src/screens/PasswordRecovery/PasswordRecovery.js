@@ -7,13 +7,22 @@ import { paddingContainer } from '../../../assets/constants';
 
 export default function PasswordRecovery() {
   const [email, setEmail] = useState('');
+  const [warn, setWarn] = useState(null);
   const navigation = useNavigation();
 
   const adicionaDominio = () => {
-    setEmail(email + '@academico.ifpb.edu.br')
+    setEmail(email + '@academico.ifpb.edu.br');
+    setWarn(null);
   }
 
-  const handleSubmit = () => navigation.navigate("CodeVerification");
+  const handleSubmit = () => {
+    if(email.match(/^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$/g)){
+      navigation.navigate("CodeVerification", { email });
+    } else {
+      Alert.alert("Email inválido", "Digite um email válido.");
+      setWarn("Email inválido");
+    }
+  }
   
   return (
     <SafeAreaView style={styles.container}>
@@ -41,9 +50,15 @@ export default function PasswordRecovery() {
           placeholder="Digite seu E-mail"
           placeholderTextColor={tertiaryColor}
           selectionColor="black"
-          style={styles.input}
+          style={[
+            styles.input, 
+            warnStyles(warn).input
+          ]}
           value={email}
-          onChangeText={text => setEmail(text)}
+          onChangeText={text => {
+            setEmail(text);
+            setWarn(null);
+          }}
         />
         
         {
@@ -54,7 +69,8 @@ export default function PasswordRecovery() {
               <Text style={{color: '#4D4D4D'}}>
                 {"@academico.ifpb.edu.br"}
               </Text>
-            </TouchableOpacity>
+            </TouchableOpacity> || 
+            <Text style={warnStyles(warn).warn}>{warn}</Text>
         }
         
         <TouchableOpacity 
@@ -154,5 +170,15 @@ const styles = StyleSheet.create({
   },
   viewMessage: {
     marginVertical: 5,
+  }
+});
+
+const warnStyles = warn => StyleSheet.create({
+  input: {
+    borderColor: warn ? "#900000" : "#dcdcdc"
+  },
+  warn: {
+    marginLeft: 12,
+    color: "#900000"
   }
 });

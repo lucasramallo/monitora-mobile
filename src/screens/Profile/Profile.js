@@ -2,13 +2,13 @@ import React from 'react';
 import { View, Text, StyleSheet } from 'react-native';
 import { useSelector } from 'react-redux';
 
-export default function HomeScreen() {
+export default function Profile() {
   const { currentUser } = useSelector((state) => state.userReducer); // Pega as informações do usuário corrente no estado global
   
   return (
     <View style={styles.container}>
       <Text>
-        {"Bem vindo! " + currentUser}
+        {"Perfil de " + currentUser}
       </Text>
     </View>
   );
