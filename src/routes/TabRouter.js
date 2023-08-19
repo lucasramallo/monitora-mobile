@@ -1,6 +1,4 @@
 import React from 'react';
-import { View, Image, Text, StyleSheet } from 'react-native';
-import { useSelector } from 'react-redux';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import Hours from '../screens//Hours/Hours';
 import HomeScreen from '../screens/Home/Home';
@@ -18,7 +16,7 @@ export default function TabRouter() {
         headerShown: false, 
         tabBarInactiveTintColor: "#949BA5", 
         tabBarActiveTintColor: "black" 
-      }} >
+      }}>
       <Tab.Screen 
         name="HomeScreen" 
         component={HomeScreen} 
@@ -28,8 +26,9 @@ export default function TabRouter() {
             <Feather 
               name="home" 
               size={size} 
-              color={color} /> 
-        }} />
+              color={color}
+            /> 
+        }}/>
       <Tab.Screen 
         name="Hours" 
         component={Hours} 
@@ -39,8 +38,9 @@ export default function TabRouter() {
             <Feather 
               name="clock" 
               size={size} 
-              color={color} /> 
-        }} />
+              color={color}
+            /> 
+        }}/>
       <Tab.Screen 
         name="Profile" 
         component={Profile} 
@@ -50,8 +50,9 @@ export default function TabRouter() {
             <Feather 
               name="user" 
               color={color} 
-              size={size} /> 
-        }} />
+              size={size}
+            /> 
+        }}/>
     </Tab.Navigator>
   );
 }
