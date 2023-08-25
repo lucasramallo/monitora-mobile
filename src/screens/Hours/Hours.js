@@ -7,11 +7,9 @@ import HorarioItem from '../../components/HourItem';
 import { Modalize } from 'react-native-modalize';
 import BottomSheet from '../../components/BottomSheet';
 import { primaryColor } from '../../../assets/colors';
+import Header from '../../components/Header.jsx';
 
 export default function Hours() {
-  const userImageURL = "https://github.com/lucasramallo/lucasramallo/assets/108425719/f846922d-276a-47c0-8994-d7e0d9251e6c";
-  const userName = "João Lucas";
-  const subject = "PDM";
   const correntMonth = "Julho";
   const thereIsPreviousMonth = true;
   const thereIsLaterMonth = false;
@@ -37,6 +35,7 @@ export default function Hours() {
       description: "3, teste e teste",
       remote: false
     },]);
+    
   const navigation = useNavigation();
   const modalizeRef = useRef(null);
   const [hourItemToEditObject, setHourItemToEditObject] = useState(null);
@@ -55,21 +54,8 @@ export default function Hours() {
   
   return (
     <SafeAreaView style={styles.container}>
-      <View style={styles.header}>
-        <Image 
-          style={styles.userImage} 
-          source={{uri: userImageURL}} 
-        />
-        
-        <View style={styles.userInfoView}>
-          <Text style={styles.userName}>
-            {userName}
-          </Text>
-          <Text style={styles.userSubject}>
-            {"Monitor " + subject}
-          </Text>
-        </View>
-      </View>
+
+      <Header />
       
       <Text style={styles.title}>
         {"Meus Horários"}
@@ -213,28 +199,6 @@ const styles = StyleSheet.create({
     paddingTop: Constants.statusBarHeight+25,
     paddingHorizontal: 20,
     backgroundColor: "#fff"
-  },
-  header: {
-    flexDirection: "row",
-    gap: 15,
-    width: "100%",
-  },
-  userImage: {
-    width: 45,
-    height: 45,
-    borderRadius: 100
-  },
-  userInfoView: {
-    justifyContent: "space-between"
-  },
-  userName: {
-    fontFamily: 'Inter_700Bold',
-    fontSize: 18
-  },
-  userSubject: {
-    color: "#949BA5", 
-    fontSize: 15,
-    fontFamily: 'Inter_400Regular'
   },
   title: {
     color: primaryColor,
