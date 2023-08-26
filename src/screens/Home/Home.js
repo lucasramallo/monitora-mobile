@@ -1,5 +1,5 @@
 import React from 'react';
-import { View, Text, StyleSheet, SafeAreaView, Image, TouchableOpacity } from 'react-native';
+import { View, Text, StyleSheet, SafeAreaView, ScrollView, Image, TouchableOpacity } from 'react-native';
 import { useSelector } from 'react-redux';
 import Header from '../../components/Header';
 import Constants from 'expo-constants';
@@ -7,11 +7,13 @@ import AvatarImage from '../../../assets/img/Avatar-icon.png'
 import { primaryColor, secondaryColor} from '../../../assets/colors/index'
 import WorkloadDisplay from '../../components/WorkloadDisplay';
 import ProgressBarView from '../../components/ProgressBar';
+import Chart from '../../components/Chart';
 
 export default function HomeScreen() {
   const { currentUser } = useSelector((state) => state.userReducer); // Pega as informações do usuário corrente no estado global
   
   return (
+    <ScrollView>
     <SafeAreaView style={styles.container}>
 
       <Header />
@@ -30,8 +32,10 @@ export default function HomeScreen() {
 
       <WorkloadDisplay />
       <ProgressBarView />
+      <Chart />
 
     </SafeAreaView>
+    </ScrollView>
   );
 }
 
