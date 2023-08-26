@@ -5,6 +5,8 @@ import Header from '../../components/Header';
 import Constants from 'expo-constants';
 import AvatarImage from '../../../assets/img/Avatar-icon.png'
 import { primaryColor, secondaryColor} from '../../../assets/colors/index'
+import WorkloadDisplay from '../../components/WorkloadDisplay';
+import ProgressBarView from '../../components/ProgressBar';
 
 export default function HomeScreen() {
   const { currentUser } = useSelector((state) => state.userReducer); // Pega as informações do usuário corrente no estado global
@@ -17,12 +19,18 @@ export default function HomeScreen() {
       <View style={styles.myHoursButtonContainer}>
         <TouchableOpacity style={styles.myHoursButton}>
           <Text style={styles.myHoursButtonText}>Meus Horários</Text>
-          <Image
-            style={styles.AvatarImage}
-            source={AvatarImage}
-          />
+          <View style={styles.AvatarImageBorder}>
+            <Image
+              style={styles.AvatarImage}
+              source={AvatarImage}
+            />
+          </View>
         </TouchableOpacity>
       </View>
+
+      <WorkloadDisplay />
+      <ProgressBarView />
+
     </SafeAreaView>
   );
 }
@@ -49,9 +57,18 @@ const styles = StyleSheet.create({
     alignItems: "center",
     padding: 18
   },
-  AvatarImage: {
+  AvatarImageBorder: {
     width: 48,
-    height: 48
+    height: 48,
+    backgroundColor: '#656669',
+    borderRadius: 16,
+    alignItems: 'center',
+    justifyContent: 'center'
+  },
+  AvatarImage: {
+    width: 32,
+    height: 32,
+    borderRadius: 15
   },
   myHoursButtonText: {
     color: secondaryColor,
