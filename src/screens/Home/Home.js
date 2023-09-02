@@ -9,17 +9,21 @@ import WorkloadDisplay from '../../components/WorkloadDisplay';
 import ProgressBarView from '../../components/ProgressBar';
 import Chart from '../../components/Chart';
 
-export default function HomeScreen() {
+export default function HomeScreen({ navigation }) {
   const { currentUser } = useSelector((state) => state.userReducer); // Pega as informações do usuário corrente no estado global
+  const { workloadList, weekWorkloadList } = useSelector((state) => state.workloadReducer);
+  const workloadSum = workloadList.reduce((soma, valor) => soma + valor, 0);
   
   return (
     <ScrollView>
     <SafeAreaView style={styles.container}>
 
       <Header />
-
+      
       <View style={styles.myHoursButtonContainer}>
-        <TouchableOpacity style={styles.myHoursButton}>
+        <TouchableOpacity 
+          style={styles.myHoursButton}
+          onPress={() => navigation.navigate("Hours")}>
           <Text style={styles.myHoursButtonText}>Meus Horários</Text>
           <View style={styles.AvatarImageBorder}>
             <Image
@@ -30,9 +34,9 @@ export default function HomeScreen() {
         </TouchableOpacity>
       </View>
 
-      <WorkloadDisplay />
-      <ProgressBarView />
-      <Chart />
+      <WorkloadDisplay workload={workloadSum}/>
+      <ProgressBarView progressValue={workloadSum/(8*60)}/>
+      <Chart dataList={weekWorkloadList} />
 
     </SafeAreaView>
     </ScrollView>

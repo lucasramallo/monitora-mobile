@@ -3,16 +3,14 @@ import { ProgressBar } from 'react-native-paper';
 import { primaryColor, secondaryColor} from '../../assets/colors/index'
 import { useState } from 'react';
 
-export default function ProgressBarView() {
-
-  const [progressValue, setProgressValue] = useState(10);
+export default function ProgressBarView({ progressValue }) {
 
   return (
     <View style={styles.container}>
       <Text style={styles.title}>Progresso da semana</Text>
-      <ProgressBar progressBackgroundColor='#212226' progress={progressValue / 100} color={'#212226'} style={styles.progressBar} />
+      <ProgressBar progressBackgroundColor='#212226' progress={progressValue} color={'#212226'} style={styles.progressBar} />
       <View style={styles.progressBarBottom}>
-        <Text style={styles.progressBarBottomText}>{`${progressValue}%`}</Text>
+        <Text style={styles.progressBarBottomText}>{`${progressValue*100}%`}</Text>
         <Text style={styles.progressBarBottomText}>8h</Text>
       </View>
     </View>

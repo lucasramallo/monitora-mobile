@@ -1,15 +1,15 @@
 import { View, Text, StyleSheet } from 'react-native';
 import { primaryColor, secondaryColor} from '../../assets/colors/index'
 
-export default function WorkloadDisplay() {
+export default function WorkloadDisplay({ workload }) {
   return (
     <View style={styles.container}>
       <Text style={styles.title}>Carga Horária</Text>
       <View style={styles.timeDisplay}>
         <View style={styles.timer}>
-          <Text style={styles.time}>00</Text>
+          <Text style={styles.time}>{parseInt(workload/60)}</Text>
           <Text style={styles.time}>h</Text>
-          <Text style={styles.time}>48</Text>
+          <Text style={styles.time}>{workload%60}</Text>
           <Text style={styles.time}>m</Text>
         </View>
         <Text style={{fontFamily: 'Inter_400Regular', fontSize: 16, color: '#949BA5', marginTop: 2}}>Esta semana</Text>

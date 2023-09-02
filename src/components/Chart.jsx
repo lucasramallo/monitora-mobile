@@ -3,7 +3,7 @@ import { Dimensions } from 'react-native';
 import { BarChart } from "react-native-chart-kit";
 import { paddingContainer } from '../../assets/constants';
 
-export default function Chart(){
+export default function Chart({ dataList }){
   return (
     <View style={styles.container}>
       <View style={{alignItems: 'center'}}>
@@ -13,13 +13,7 @@ export default function Chart(){
             labels: ["Segunda", "Terça", "Quarta", "Quinta", "Sexta"],
             datasets: [
               {
-                data: [
-                  1,
-                  2,
-                  5,
-                  3,
-                  1,
-                ]
+                data: dataList
               }
             ]
           }}

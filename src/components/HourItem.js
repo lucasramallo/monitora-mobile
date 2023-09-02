@@ -4,16 +4,11 @@ import { MaterialCommunityIcons } from '@expo/vector-icons';
 import BouncyCheckbox from "react-native-bouncy-checkbox";
 import { primaryColor } from '../../assets/colors';
 
-export default function HorarioItem ({ item, onEditPress }) {
+export default function HorarioItem ({ item, onEditPress, onDeletePress }) {
   
   return (
     <View style={styles.container}>
       <View style={styles.checkAndWorkloadView}>
-        <BouncyCheckbox 
-          onPress={(isChecked) => 0} 
-          size={20} 
-          fillColor={primaryColor}
-        />
         <Text style={{fontSize: 15, color: '#404040', fontFamily: 'Inter_400Regular'}}>
           {item.workload}
         </Text>
@@ -23,6 +18,7 @@ export default function HorarioItem ({ item, onEditPress }) {
         {item.date}
       </Text>
       
+      <View style={styles.actionButtonsView}>
       <TouchableOpacity 
         style={styles.editButton} 
         onPress={onEditPress} 
@@ -33,6 +29,13 @@ export default function HorarioItem ({ item, onEditPress }) {
           color="#565656" 
         />
       </TouchableOpacity>
+      <TouchableOpacity onPress={onDeletePress}>
+        <MaterialCommunityIcons 
+          name="delete-outline" 
+          size={24} 
+          color="#565656" />
+      </TouchableOpacity>
+      </View>
     </View>
   );
 }
@@ -45,6 +48,11 @@ const styles = StyleSheet.create({
     alignItems: "center"
   },
   checkAndWorkloadView: {
+    flexDirection: "row", 
+    gap: 20, 
+    alignItems: "center",
+  },
+  actionButtonsView: {
     flexDirection: "row", 
     gap: 20, 
     alignItems: "center",
