@@ -4,6 +4,7 @@ import { Feather } from '@expo/vector-icons';
 import DateTimePickerModal from "react-native-modal-datetime-picker";
 import { primaryColor } from '../../assets/colors';
 
+
 export default function BottomSheet({ onConfirm, hourItemToEditObject }) {
   const newItem = {
     id: parseInt(Math.random()*128),
@@ -56,6 +57,7 @@ export default function BottomSheet({ onConfirm, hourItemToEditObject }) {
   });
   
   return (
+   
     <View style={styles.view}>
       <Text style={styles.title}>
         {hourItemToEditObject ? "Editar Horário" : "Novo Horário"}
@@ -214,6 +216,7 @@ export default function BottomSheet({ onConfirm, hourItemToEditObject }) {
         </Text>
       </TouchableOpacity>
     </View>
+
   );
 }
 
