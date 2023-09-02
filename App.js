@@ -3,6 +3,7 @@ import { NavigationContainer } from '@react-navigation/native';
 import Router from './src/routes/Router';
 import { Provider } from 'react-redux';
 import store from './src/redux/store'
+import { GestureHandlerRootView } from 'react-native-gesture-handler';
 import { 
   useFonts,
   Inter_900Black, 
@@ -26,10 +27,12 @@ export default function App() {
   }
 
   return (
-    <NavigationContainer>
-      <Provider store={store}>
-        <Router/>
-      </Provider>
-    </NavigationContainer>
+
+      <NavigationContainer>
+        <Provider store={store}>
+          <Router/>
+        </Provider>
+      </NavigationContainer>
+
   );
 } 
