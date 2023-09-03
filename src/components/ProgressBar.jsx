@@ -10,7 +10,7 @@ export default function ProgressBarView({ progressValue }) {
       <Text style={styles.title}>Progresso da semana</Text>
       <ProgressBar progressBackgroundColor='#212226' progress={progressValue} color={'#212226'} style={styles.progressBar} />
       <View style={styles.progressBarBottom}>
-        <Text style={styles.progressBarBottomText}>{`${progressValue*100}%`}</Text>
+        <Text style={styles.progressBarBottomText}>{`${(progressValue*100).toFixed(2)}%`}</Text>
         <Text style={styles.progressBarBottomText}>8h</Text>
       </View>
     </View>

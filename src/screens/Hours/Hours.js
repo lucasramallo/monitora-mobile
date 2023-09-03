@@ -8,7 +8,7 @@ import { Modalize } from 'react-native-modalize';
 import BottomSheet from '../../components/BottomSheet';
 import { primaryColor } from '../../../assets/colors';
 import { useDispatch, useSelector } from 'react-redux';
-import { addWorkload } from '../../redux/workload/slice';
+import { addWorkload, setweekWorkloadList } from '../../redux/workload/slice';
 import Header from '../../components/Header.jsx';
 import { GestureHandlerRootView } from 'react-native-gesture-handler';
 
@@ -20,14 +20,14 @@ export default function Hours() {
     { 
       id: 57,
       workload: "07:00/08:00", 
-      date: "05/07/2023",
+      date: "01/09/2023",
       description: "1, teste e teste",
       remote: false
     },
     { 
       id: 81,
       workload: "07:00/08:30", 
-      date: "07/07/2023",
+      date: "08/09/2023",
       description: "2, teste e teste",
       remote: true
     },
@@ -38,12 +38,23 @@ export default function Hours() {
       description: "3, teste e teste",
       remote: false
     },]);
+    const [weekWorkload, setWeekWorkload] = useState([0, 0, 0, 0, 0]);
     
   const navigation = useNavigation();
   const dispatch = useDispatch();
   const { workloadList } = useSelector((state) => state.workloadReducer);
   const modalizeRef = useRef(null);
   const [hourItemToEditObject, setHourItemToEditObject] = useState(null);
+  
+  const inThisWeek = (string) => {
+    let date = new Date();
+    let [day, month, year] = string.split('/').map(n => parseInt(n));
+    let givenDate = new Date(year, month - 1, day);
+    let sunday = new Date(date.setDate(date.getDate() - date.getDay()));
+    let saturday = new Date(date.setDate(date.getDate() + 6));
+    
+    return (givenDate > sunday && givenDate < saturday);
+  }
   
   useEffect(() => {
     const calcInterval = (string) => {
@@ -56,9 +67,22 @@ export default function Hours() {
       return finalMinutes - initialMinutes;
     }
     
+    let weekHours = hoursList.filter(item => inThisWeek(item.date));
+    for(let itemObj of weekHours){
+      let [day, month, year] = itemObj.date.split("/");
+      let weekDay = new Date(year, parseInt(month) - 1, day).getDay();
+      let weekWorkloadCopy = [...weekWorkload];
+      weekWorkloadCopy[weekDay-1] = calcInterval(itemObj.workload);
+      setWeekWorkload(weekWorkloadCopy);
+    }
+    
     let workloadList = hoursList.map(item => calcInterval(item.workload));
     dispatch(addWorkload(workloadList))
   }, [hoursList]);
+  
+  useEffect(() => {
+    dispatch(setweekWorkloadList(weekWorkload));
+  }, [weekWorkload])
   
   const handleAddHourItem = (item) => {
     modalizeRef.current?.close();

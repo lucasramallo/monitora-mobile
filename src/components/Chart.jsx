@@ -13,7 +13,7 @@ export default function Chart({ dataList }){
             labels: ["Segunda", "Terça", "Quarta", "Quinta", "Sexta"],
             datasets: [
               {
-                data: dataList
+                data: dataList.map(n => parseInt(n/60))
               }
             ]
           }}
