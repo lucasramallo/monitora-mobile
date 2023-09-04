@@ -3,8 +3,8 @@ import { Text, View,  StyleSheet,  TouchableOpacity,  TextInput,  SafeAreaView, 
 import { Octicons } from '@expo/vector-icons';
 import Constants from 'expo-constants';
 import { useNavigation } from '@react-navigation/native';
-import { primaryColor, secondaryColor} from '../../../assets/colors/index'
-import { useDispatch } from 'react-redux'
+import { primaryColor, secondaryColor} from '../../../assets/colors/index';
+import { useDispatch } from 'react-redux';
 import { logar } from '../../redux/user/slice';
 import { paddingContainer } from '../../../assets/constants';
 

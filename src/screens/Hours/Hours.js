@@ -2,30 +2,32 @@ import React, { useState, useEffect, useRef } from 'react';
 import { StyleSheet, Switch, SafeAreaView, TextInput, View, TouchableOpacity, Image, Text, FlatList, Alert } from 'react-native';
 import Constants from 'expo-constants';
 import { useNavigation } from '@react-navigation/native';
-import { FontAwesome, Entypo, Ionicons, Octicons,  } from '@expo/vector-icons';
+import { FontAwesome, Entypo, Ionicons, Octicons, MaterialIcons } from '@expo/vector-icons';
 import HorarioItem from '../../components/HourItem';
 import { Modalize } from 'react-native-modalize';
 import BottomSheet from '../../components/BottomSheet';
 import { primaryColor } from '../../../assets/colors';
+import { useDispatch, useSelector } from 'react-redux';
+import { addWorkload, setweekWorkloadList } from '../../redux/workload/slice';
 import Header from '../../components/Header.jsx';
 import { GestureHandlerRootView } from 'react-native-gesture-handler';
 
 export default function Hours() {
-  const correntMonth = "Julho";
+  const [currentMonth, setCurrentMonth] = useState("Julho");
   const thereIsPreviousMonth = true;
   const thereIsLaterMonth = false;
   const [hoursList, setHoursList] = useState([
     { 
       id: 57,
       workload: "07:00/08:00", 
-      date: "01/07/2023",
+      date: "01/09/2023",
       description: "1, teste e teste",
       remote: false
     },
     { 
       id: 81,
       workload: "07:00/08:30", 
-      date: "05/07/2023",
+      date: "08/09/2023",
       description: "2, teste e teste",
       remote: true
     },
@@ -36,10 +38,51 @@ export default function Hours() {
       description: "3, teste e teste",
       remote: false
     },]);
+    const [weekWorkload, setWeekWorkload] = useState([0, 0, 0, 0, 0]);
     
   const navigation = useNavigation();
+  const dispatch = useDispatch();
+  const { workloadList } = useSelector((state) => state.workloadReducer);
   const modalizeRef = useRef(null);
   const [hourItemToEditObject, setHourItemToEditObject] = useState(null);
+  
+  const inThisWeek = (string) => {
+    let date = new Date();
+    let [day, month, year] = string.split('/').map(n => parseInt(n));
+    let givenDate = new Date(year, month - 1, day);
+    let sunday = new Date(date.setDate(date.getDate() - date.getDay()));
+    let saturday = new Date(date.setDate(date.getDate() + 6));
+    
+    return (givenDate > sunday && givenDate < saturday);
+  }
+  
+  useEffect(() => {
+    const calcInterval = (string) => {
+      let [initial, final] = string.split("/");
+      let [hi, mi] = initial.split(':').map(n => parseInt(n));
+      let [hf, mf] = final.split(':').map(n => parseInt(n));
+      let initialMinutes = hi*60 + mi;
+      let finalMinutes = hf*60 + mf;
+      
+      return finalMinutes - initialMinutes;
+    }
+    
+    let weekHours = hoursList.filter(item => inThisWeek(item.date));
+    for(let itemObj of weekHours){
+      let [day, month, year] = itemObj.date.split("/");
+      let weekDay = new Date(year, parseInt(month) - 1, day).getDay();
+      let weekWorkloadCopy = [...weekWorkload];
+      weekWorkloadCopy[weekDay-1] = calcInterval(itemObj.workload);
+      setWeekWorkload(weekWorkloadCopy);
+    }
+    
+    let workloadList = hoursList.map(item => calcInterval(item.workload));
+    dispatch(addWorkload(workloadList))
+  }, [hoursList]);
+  
+  useEffect(() => {
+    dispatch(setweekWorkloadList(weekWorkload));
+  }, [weekWorkload])
   
   const handleAddHourItem = (item) => {
     modalizeRef.current?.close();
@@ -51,7 +94,8 @@ export default function Hours() {
     } else {
       setHoursList([...hoursList, item]);
     }
-  }
+  };
+  
   
   return (
     <GestureHandlerRootView style={{flex: 1}}>
@@ -64,33 +108,21 @@ export default function Hours() {
         </Text>
         
         <Text style={styles.monthTitle}>
-          {"Mês de " + correntMonth}
+          {"Mês de " + currentMonth}
         </Text>
         
         <View style={styles.topButtonsView}>
-          <View style={styles.topButtonsViewLeft}>
-            <TouchableOpacity style={styles.topButtons}>
-              <FontAwesome 
-                name="sliders" 
-                size={16} 
-                color="#727272" 
-              />
-              <Text style={styles.topButtonsLeftLabels}>
-                {"Filtros"}
-              </Text>
-            </TouchableOpacity>
+          <TouchableOpacity style={styles.sendHoursButton}>
+            <MaterialIcons 
+              name="arrow-circle-up" 
+              size={20} 
+              color={primaryColor} 
+            />
+            <Text style={styles.sendHoursButtonLabel}>
+              {"Enviar"}
+            </Text>
+          </TouchableOpacity>
             
-            <TouchableOpacity style={styles.topButtons}>
-              <FontAwesome 
-                name="sliders" 
-                size={16} 
-                color="#727272" 
-              />
-              <Text style={styles.topButtonsLeftLabels}>
-                {"Delete"}
-              </Text>
-            </TouchableOpacity>
-          </View>
           
           <TouchableOpacity 
             style={styles.addHourItemButton}
@@ -126,7 +158,8 @@ export default function Hours() {
             />
           </TouchableOpacity>
           
-          <TouchableOpacity style={styles.filterButtons}>
+          <TouchableOpacity 
+            style={styles.filterButtons}>
             <Text style={styles.filterButtonsLabels}>
               {"Data"}
             </Text>
@@ -140,33 +173,6 @@ export default function Hours() {
               ]}
             />
           </TouchableOpacity>
-          
-          <View style={styles.buttonBackForwardView}>
-            <TouchableOpacity 
-              disabled={!thereIsPreviousMonth}
-              style={
-                thereIsPreviousMonth ? styles.pageButtonActive : styles.pageButtonDisabled
-              }
-            >
-              <Ionicons 
-                name="chevron-back" 
-                size={16} 
-                color="#222"
-              />
-            </TouchableOpacity>
-            <TouchableOpacity 
-              disabled={!thereIsLaterMonth}
-              style={
-                thereIsLaterMonth ? styles.pageButtonActive : styles.pageButtonDisabled
-              }
-            >
-              <Ionicons 
-                name="chevron-forward" 
-                size={16} 
-                color="#222" 
-              />
-            </TouchableOpacity>
-          </View>
         </View>
         
         <View>
@@ -176,8 +182,11 @@ export default function Hours() {
               <HorarioItem item={item} onEditPress={() => {
                   setHourItemToEditObject(item);
                   modalizeRef.current?.open();
-                }
-              }/>)
+                }}
+                onDeletePress={() => {
+                  setHoursList(hoursList.filter(hour => hour != item));
+                }}
+              />)
             }
           />
         </View>
@@ -223,20 +232,16 @@ const styles = StyleSheet.create({
     alignItems: "center",
     justifyContent: "space-between"
   },
-  topButtonsViewLeft: {
-    flexDirection: "row",
-    marginTop: 5,
-    marginBottom: 8,
-    gap: 10
-  },
-  topButtonsLeftLabels: {
+  sendHoursButtonLabel: {
     fontSize: 14, 
-    color: "#727272"
+    color: primaryColor
   },
-  topButtons: {
+  sendHoursButton: {
+    marginVertical: 8,
     borderWidth: 1,
-    borderColor: "#949BA5",
-    padding: 8,
+    borderColor: primaryColor,
+    paddingVertical: 8,
+    paddingHorizontal: 15,
     borderRadius: 8,
     flexDirection: "row",
     alignItems: "center",
@@ -260,7 +265,9 @@ const styles = StyleSheet.create({
     flexDirection: "row",
     justifyContent: "space-between",
     marginBottom: 10,
-    marginLeft: 70
+    paddingHorizontal: 15,
+    marginRight: 120,
+    gap: 30,
   },
   filterButtons: {
     flexDirection: "row", 
@@ -270,24 +277,5 @@ const styles = StyleSheet.create({
   filterButtonsLabels: {
     color: '#8C8C8C',
     fontSize: 14
-  },
-  buttonBackForwardView: {
-    flexDirection: "row",
-    gap: 5
-  },
-  pageButtonActive: {
-    borderRadius: 50,  
-    width: 25, 
-    height: 25, 
-    alignItems: "center", 
-    justifyContent: "center",
-    backgroundColor: "#F5F7F9"
-  },
-  pageButtonDisabled: {
-    borderRadius: 50,  
-    width: 25, 
-    height: 25, 
-    alignItems: "center", 
-    justifyContent: "center",
   },
 });
