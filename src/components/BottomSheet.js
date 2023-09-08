@@ -35,7 +35,7 @@ export default function BottomSheet({ onConfirm, hourItemToEditObject }) {
   };
   
   const handleConfirm = () => {
-    if(itemObject.date != "Data" && startTime != "Início" && endTime != "Final"){
+    if(itemObject.date != "Data" && startTime != "Início" && endTime != "Final" && parseInt(endTime.split(":").join("")) > parseInt(startTime.split(":").join(""))){
       onConfirm(itemObject);
     } else {
       if(itemObject.date == "Data"){
@@ -44,7 +44,7 @@ export default function BottomSheet({ onConfirm, hourItemToEditObject }) {
       if(startTime == "Início"){
         setWarnStartTime(true);
       }
-      if(endTime == "Final"){
+      if(endTime == "Final" || parseInt(endTime.split(":").join("")) <= parseInt(startTime.split(":").join(""))){
         setWarnEndTime(true);
       }
     }

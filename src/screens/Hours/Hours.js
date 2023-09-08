@@ -83,7 +83,7 @@ export default function Hours() {
   
   const handleAddHourItem = (item) => {
     modalizeRef.current?.close();
-    let existingIndex = hoursList.findIndex(hourItem => hourItem.date.toLocaleDateString() == item.date.toLocaleDateString());
+    let existingIndex = hoursList.findIndex(hourItem => hourItem.id == item.id);
     if(existingIndex != -1){
       const hoursListCopy = [...hoursList];
       hoursListCopy.splice(existingIndex, 1, item);
