@@ -38,11 +38,10 @@ export default function Hours() {
       description: "3, teste e teste",
       remote: false
     },]);
-    const [weekWorkload, setWeekWorkload] = useState([0, 0, 0, 0, 0]);
     
   const navigation = useNavigation();
   const dispatch = useDispatch();
-  const { workloadList } = useSelector((state) => state.workloadReducer);
+  const { workloadList, weekWorkloadList } = useSelector((state) => state.workloadReducer);
   const modalizeRef = useRef(null);
   const [hourItemToEditObject, setHourItemToEditObject] = useState(null);
   
@@ -66,38 +65,28 @@ export default function Hours() {
     
   useEffect(() => {
     let thisWeekDays = hoursList.filter(item => inThisWeek(item.date));
-    let weekWorkloadCopy = [...weekWorkload];
-    for(let weekDay in weekWorkload){
-      let found = null;
+    let weekWorkloadListCopy = weekWorkloadList.map((el, weekDay) => {
       for(let item of thisWeekDays){
         if(item.date.getDay()-1 == weekDay){
-          found = item;
+          return calcInterval(item.workload);
         }
       }
       
-      if(found){
-        weekWorkloadCopy[weekDay] = calcInterval(found.workload);
-      } else {
-        weekWorkloadCopy[weekDay] = 30;
-      }
-    }
-    setWeekWorkload(weekWorkloadCopy);
+      return 0;
+    });
+    dispatch(setweekWorkloadList(weekWorkloadListCopy));
     
     let workloadList = hoursList.map(item => calcInterval(item.workload));
     dispatch(addWorkload(workloadList))
   }, [hoursList]);
   
-  useEffect(() => {
-    dispatch(setweekWorkloadList(weekWorkload));
-  }, [weekWorkload])
   
   const handleAddHourItem = (item) => {
     modalizeRef.current?.close();
-    let existingItem = hoursList.find(hourItem => hourItem.id == item.id);
-    if(existingItem){
+    let existingIndex = hoursList.findIndex(hourItem => hourItem.date.toLocaleDateString() == item.date.toLocaleDateString());
+    if(existingIndex != -1){
       const hoursListCopy = [...hoursList];
-      const itemIndex = hoursListCopy.findIndex(obj => obj.id == item.id);
-      hoursListCopy.splice(itemIndex, 1, item);
+      hoursListCopy.splice(existingIndex, 1, item);
       setHoursList(hoursListCopy);
     } else {
       setHoursList([...hoursList, item]);
