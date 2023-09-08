@@ -140,7 +140,9 @@ export default function Hours() {
         </View>
         
         <View style={styles.filtersView}>
-          <TouchableOpacity style={styles.filterButtons}>
+          <TouchableOpacity 
+            style={styles.filterButtons}
+            onPress={() => setHoursList([...hoursList].sort((item1, item2) => calcInterval(item2.workload) - calcInterval(item1.workload)))}>
             <Text style={styles.filterButtonsLabels}>
               {"Carga"}
             </Text>
@@ -156,7 +158,8 @@ export default function Hours() {
           </TouchableOpacity>
           
           <TouchableOpacity 
-            style={styles.filterButtons}>
+            style={styles.filterButtons}
+            onPress={() => setHoursList([...hoursList].sort((item1, item2) => item2.date - item1.date))}>
             <Text style={styles.filterButtonsLabels}>
               {"Data"}
             </Text>
