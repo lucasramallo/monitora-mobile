@@ -198,6 +198,7 @@ export default function Hours() {
           
           <BottomSheet 
             hourItemToEditObject={hourItemToEditObject}
+            datesList={hoursList.map(item => item.date.toLocaleDateString())}
             onConfirm={newItem => handleAddHourItem(newItem)}
           />
           

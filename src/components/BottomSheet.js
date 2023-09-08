@@ -5,7 +5,7 @@ import DateTimePickerModal from "react-native-modal-datetime-picker";
 import { primaryColor } from '../../assets/colors';
 
 
-export default function BottomSheet({ onConfirm, hourItemToEditObject }) {
+export default function BottomSheet({ onConfirm, hourItemToEditObject, datesList }) {
   const newItem = {
     id: parseInt(Math.random()*128),
     description: "",
@@ -35,10 +35,10 @@ export default function BottomSheet({ onConfirm, hourItemToEditObject }) {
   };
   
   const handleConfirm = () => {
-    if(itemObject.date != "Data" && startTime != "Início" && endTime != "Final" && parseInt(endTime.split(":").join("")) > parseInt(startTime.split(":").join(""))){
+    if(itemObject.date != "Data" && startTime != "Início" && endTime != "Final" && parseInt(endTime.split(":").join("")) > parseInt(startTime.split(":").join("")) && !datesList.includes(itemObject.date.toLocaleDateString())){
       onConfirm(itemObject);
     } else {
-      if(itemObject.date == "Data"){
+      if(itemObject.date == "Data" || datesList.includes(itemObject.date.toLocaleDateString())){
         setWarnDate(true);
       }
       if(startTime == "Início"){
