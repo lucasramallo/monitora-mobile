@@ -15,7 +15,7 @@ export default function HorarioItem ({ item, onEditPress, onDeletePress }) {
       </View>
       
       <Text style={{fontSize: 15, color: '#404040', fontFamily: 'Inter_400Regular'}}>
-        {item.date}
+        {item.date.toLocaleDateString("pt-BR")}
       </Text>
       
       <View style={styles.actionButtonsView}>

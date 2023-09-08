@@ -1,6 +1,6 @@
 import { View, StyleSheet, Text } from 'react-native';
 import { ProgressBar } from 'react-native-paper';
-import { primaryColor, secondaryColor} from '../../assets/colors/index'
+import { primaryColor, secondaryColor, warnColor } from '../../assets/colors/index'
 import { useState } from 'react';
 
 export default function ProgressBarView({ progressValue }) {
@@ -8,9 +8,13 @@ export default function ProgressBarView({ progressValue }) {
   return (
     <View style={styles.container}>
       <Text style={styles.title}>Progresso da semana</Text>
-      <ProgressBar progressBackgroundColor='#212226' progress={progressValue} color={'#212226'} style={styles.progressBar} />
+      <ProgressBar progressBackgroundColor='#212226' progress={progressValue} color={progressValue > 1 ? warnColor : '#212226'} style={styles.progressBar} />
       <View style={styles.progressBarBottom}>
-        <Text style={styles.progressBarBottomText}>{`${(progressValue*100).toFixed(2)}%`}</Text>
+        <Text 
+          style={{
+            ...styles.progressBarBottomText, 
+            color: progressValue > 1 ? warnColor : "#77838F"
+          }}>{`${(progressValue*100).toFixed(2)}%`}</Text>
         <Text style={styles.progressBarBottomText}>8h</Text>
       </View>
     </View>

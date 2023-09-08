@@ -80,7 +80,7 @@ export default function BottomSheet({ onConfirm, hourItemToEditObject }) {
           isVisible={showDatePicker}
           mode="date"
           onConfirm={(chosenDate) => {
-            handleChange("date", chosenDate.toLocaleDateString());
+            handleChange("date", chosenDate);
             setShowDatePicker(false);
             setWarnStartTime(warnStartTime);
             setWarnEndTime(warnEndTime);
@@ -100,7 +100,7 @@ export default function BottomSheet({ onConfirm, hourItemToEditObject }) {
           }}
           >
           <Text style={date == "Data" ? styles.placeholderText : {}}>
-            {date}
+            {date == newItem.date ? newItem.date : date.toLocaleDateString("pt-BR")}
           </Text>
           <Feather 
             name="calendar" 
