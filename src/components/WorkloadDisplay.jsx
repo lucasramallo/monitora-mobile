@@ -7,7 +7,10 @@ export default function WorkloadDisplay({ workload }) {
       <Text style={styles.title}>Carga Horária</Text>
       <View style={styles.timeDisplay}>
         <View style={styles.timer}>
-          <Text style={styles.time}>{`${parseInt(workload/60)}h${workload%60}m`}</Text>
+          <Text style={{
+            ...styles.time,
+            color: workload > 480 ? warnColor : primaryColor
+          }}>{parseInt(workload/60)}h{workload%60}m</Text>
         </View>
         <Text style={{fontFamily: 'Inter_400Regular', fontSize: 16, color: '#949BA5', marginTop: 2}}>Esta semana</Text>
       </View>
