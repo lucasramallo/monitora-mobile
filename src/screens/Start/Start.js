@@ -52,7 +52,7 @@ const styles = StyleSheet.create({
   },
   content: {
     flex: 1, 
-    padding: 35
+    padding: 35,
   },
   imageAvatar: {
     marginTop: "25%"
