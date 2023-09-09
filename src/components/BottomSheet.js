@@ -5,7 +5,7 @@ import DateTimePickerModal from "react-native-modal-datetime-picker";
 import { primaryColor } from '../../assets/colors';
 
 
-export default function BottomSheet({ onConfirm, hourItemToEditObject }) {
+export default function BottomSheet({ onConfirm, hourItemToEditObject, datesList }) {
   const newItem = {
     id: parseInt(Math.random()*128),
     description: "",
@@ -35,16 +35,16 @@ export default function BottomSheet({ onConfirm, hourItemToEditObject }) {
   };
   
   const handleConfirm = () => {
-    if(itemObject.date != "Data" && startTime != "Início" && endTime != "Final"){
+    if(itemObject.date != "Data" && startTime != "Início" && endTime != "Final" && parseInt(endTime.split(":").join("")) > parseInt(startTime.split(":").join("")) && !datesList.includes(itemObject.date.toLocaleDateString())){
       onConfirm(itemObject);
     } else {
-      if(itemObject.date == "Data"){
+      if(itemObject.date == "Data" || datesList.includes(itemObject.date.toLocaleDateString())){
         setWarnDate(true);
       }
       if(startTime == "Início"){
         setWarnStartTime(true);
       }
-      if(endTime == "Final"){
+      if(endTime == "Final" || parseInt(endTime.split(":").join("")) <= parseInt(startTime.split(":").join(""))){
         setWarnEndTime(true);
       }
     }
@@ -80,7 +80,7 @@ export default function BottomSheet({ onConfirm, hourItemToEditObject }) {
           isVisible={showDatePicker}
           mode="date"
           onConfirm={(chosenDate) => {
-            handleChange("date", chosenDate.toLocaleDateString());
+            handleChange("date", chosenDate);
             setShowDatePicker(false);
             setWarnStartTime(warnStartTime);
             setWarnEndTime(warnEndTime);
@@ -100,7 +100,7 @@ export default function BottomSheet({ onConfirm, hourItemToEditObject }) {
           }}
           >
           <Text style={date == "Data" ? styles.placeholderText : {}}>
-            {date}
+            {date == newItem.date ? newItem.date : date.toLocaleDateString("pt-BR")}
           </Text>
           <Feather 
             name="calendar" 

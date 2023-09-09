@@ -53,7 +53,7 @@ const styles = StyleSheet.create({
   myHoursButtonContainer: {
     justifyContent: 'center',
     alignItems: 'center',
-    marginTop: 50
+    marginTop: 38
   },
   myHoursButton: {
     width: '100%',

@@ -20,76 +20,73 @@ export default function Hours() {
     { 
       id: 57,
       workload: "07:00/08:00", 
-      date: "01/09/2023",
+      date: new Date(2023, 8, 5),
       description: "1, teste e teste",
       remote: false
     },
     { 
       id: 81,
       workload: "07:00/08:30", 
-      date: "08/09/2023",
+      date: new Date(2023, 8, 6),
       description: "2, teste e teste",
       remote: true
     },
     { 
       id: 123,
       workload: "07:00/12:00", 
-      date: "14/07/2023",
+      date: new Date(2023, 8, 7),
       description: "3, teste e teste",
       remote: false
     },]);
-    const [weekWorkload, setWeekWorkload] = useState([0, 0, 0, 0, 0]);
     
   const navigation = useNavigation();
   const dispatch = useDispatch();
-  const { workloadList } = useSelector((state) => state.workloadReducer);
+  const { workloadList, weekWorkloadList } = useSelector((state) => state.workloadReducer);
   const modalizeRef = useRef(null);
   const [hourItemToEditObject, setHourItemToEditObject] = useState(null);
   
-  const inThisWeek = (string) => {
+  const inThisWeek = (givenDate) => {
     let date = new Date();
-    let [day, month, year] = string.split('/').map(n => parseInt(n));
-    let givenDate = new Date(year, month - 1, day);
     let sunday = new Date(date.setDate(date.getDate() - date.getDay()));
     let saturday = new Date(date.setDate(date.getDate() + 6));
     
     return (givenDate > sunday && givenDate < saturday);
   }
   
-  useEffect(() => {
-    const calcInterval = (string) => {
-      let [initial, final] = string.split("/");
-      let [hi, mi] = initial.split(':').map(n => parseInt(n));
-      let [hf, mf] = final.split(':').map(n => parseInt(n));
-      let initialMinutes = hi*60 + mi;
-      let finalMinutes = hf*60 + mf;
-      
-      return finalMinutes - initialMinutes;
-    }
+  const calcInterval = (string) => {
+    let [initial, final] = string.split("/");
+    let [hi, mi] = initial.split(':').map(n => parseInt(n));
+    let [hf, mf] = final.split(':').map(n => parseInt(n));
+    let initialMinutes = hi*60 + mi;
+    let finalMinutes = hf*60 + mf;
     
-    let weekHours = hoursList.filter(item => inThisWeek(item.date));
-    for(let itemObj of weekHours){
-      let [day, month, year] = itemObj.date.split("/");
-      let weekDay = new Date(year, parseInt(month) - 1, day).getDay();
-      let weekWorkloadCopy = [...weekWorkload];
-      weekWorkloadCopy[weekDay-1] = calcInterval(itemObj.workload);
-      setWeekWorkload(weekWorkloadCopy);
-    }
+    return finalMinutes - initialMinutes;
+  }
+    
+  useEffect(() => {
+    let thisWeekDays = hoursList.filter(item => inThisWeek(item.date));
+    let weekWorkloadListCopy = weekWorkloadList.map((el, weekDay) => {
+      for(let item of thisWeekDays){
+        if(item.date.getDay()-1 == weekDay){
+          return calcInterval(item.workload);
+        }
+      }
+      
+      return 0;
+    });
+    dispatch(setweekWorkloadList(weekWorkloadListCopy));
     
     let workloadList = hoursList.map(item => calcInterval(item.workload));
     dispatch(addWorkload(workloadList))
   }, [hoursList]);
   
-  useEffect(() => {
-    dispatch(setweekWorkloadList(weekWorkload));
-  }, [weekWorkload])
   
   const handleAddHourItem = (item) => {
     modalizeRef.current?.close();
-    if(hoursList.find(hourItem => hourItem.id == item.id)){
+    let existingIndex = hoursList.findIndex(hourItem => hourItem.id == item.id);
+    if(existingIndex != -1){
       const hoursListCopy = [...hoursList];
-      const itemIndex = hoursListCopy.findIndex(obj => obj.id == item.id);
-      hoursListCopy.splice(itemIndex, 1, item);
+      hoursListCopy.splice(existingIndex, 1, item);
       setHoursList(hoursListCopy);
     } else {
       setHoursList([...hoursList, item]);
@@ -143,7 +140,9 @@ export default function Hours() {
         </View>
         
         <View style={styles.filtersView}>
-          <TouchableOpacity style={styles.filterButtons}>
+          <TouchableOpacity 
+            style={styles.filterButtons}
+            onPress={() => setHoursList([...hoursList].sort((item1, item2) => calcInterval(item2.workload) - calcInterval(item1.workload)))}>
             <Text style={styles.filterButtonsLabels}>
               {"Carga"}
             </Text>
@@ -159,7 +158,8 @@ export default function Hours() {
           </TouchableOpacity>
           
           <TouchableOpacity 
-            style={styles.filterButtons}>
+            style={styles.filterButtons}
+            onPress={() => setHoursList([...hoursList].sort((item1, item2) => item2.date - item1.date))}>
             <Text style={styles.filterButtonsLabels}>
               {"Data"}
             </Text>
@@ -198,6 +198,7 @@ export default function Hours() {
           
           <BottomSheet 
             hourItemToEditObject={hourItemToEditObject}
+            datesList={hoursList.map(item => item.date.toLocaleDateString())}
             onConfirm={newItem => handleAddHourItem(newItem)}
           />
           
