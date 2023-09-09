@@ -12,7 +12,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { setProfilePicture } from '../../redux/user/slice';
 import { primaryColor, secondaryColor} from '../../../assets/colors/index'
 
-export default function Profile() {
+export default function Profile({ navigation }) {
   const { currentUser } = useSelector((state) => state.userReducer);
   const { profilePicture } = useSelector((state) => state.userReducer);
 
