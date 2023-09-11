@@ -4,7 +4,6 @@ import { Feather } from '@expo/vector-icons';
 import DateTimePickerModal from "react-native-modal-datetime-picker";
 import { primaryColor } from '../../assets/colors';
 
-
 export default function BottomSheet({ onConfirm, hourItemToEditObject, datesList }) {
   const newItem = {
     id: parseInt(Math.random()*128),

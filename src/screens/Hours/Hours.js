@@ -24,20 +24,7 @@ export default function Hours() {
       description: "1, teste e teste",
       remote: false
     },
-    { 
-      id: 81,
-      workload: "07:00/08:30", 
-      date: new Date(2023, 8, 6),
-      description: "2, teste e teste",
-      remote: true
-    },
-    { 
-      id: 123,
-      workload: "07:00/12:00", 
-      date: new Date(2023, 8, 7),
-      description: "3, teste e teste",
-      remote: false
-    },]);
+   ]);
     
   const navigation = useNavigation();
   const dispatch = useDispatch();
