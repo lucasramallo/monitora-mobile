@@ -30,8 +30,8 @@ export default function BottomSheet({ onConfirm, hourItemToEditObject, datesList
     let [initial, final] = string.split("/");
     let [hi, mi] = initial.split(':').map(n => parseInt(n));
     let [hf, mf] = final.split(':').map(n => parseInt(n));
-    let initialMinutes = hi*60 + mi;
-    let finalMinutes = hf*60 + mf;
+    let initialMinutes = hi * 60 + mi;
+    let finalMinutes = hf * 60 + mf;
     
     return finalMinutes - initialMinutes;
   }
