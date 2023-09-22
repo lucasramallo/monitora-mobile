@@ -37,10 +37,9 @@ export default function BottomSheet({ onConfirm, hourItemToEditObject, datesList
   }
 
   useEffect(() => {
-    const weekWorkloadSum = weekWorkloadList.reduce((soma, n) => n + soma, 0)
-    if(workload != "Início/Final" && (calcInterval(workload) + weekWorkloadSum) > 480){
-      setLimiteTimeExceeded(true)
-    }
+    const weekWorkloadSum = weekWorkloadList.reduce((soma, n) => n + soma, 0);
+    
+      setLimiteTimeExceeded(workload != "Início/Final" && (calcInterval(workload) + weekWorkloadSum) > 480);
   }, [workload])
 
   const handleChange = (prop, value) => {
@@ -217,9 +216,12 @@ export default function BottomSheet({ onConfirm, hourItemToEditObject, datesList
 
         {
           limiteTimeExceeded && 
-          <Text style={{ color: 'red' }}>
+          <View style={styles.alertBox}>
+            <Feather name="alert-circle" size={24} color={warnColor} />
+            <Text style={{ color: warnColor, width: "80%" }}>
             Ao adicionar esse horário você excederá o limite semanal de 8 horas!
-          </Text>
+            </Text>
+          </View>
         }
         
         <View style={styles.switchView}>
@@ -305,6 +307,13 @@ const styles = StyleSheet.create({
       fontFamily: 'Inter_600SemiBold',
       fontSize: 16
     }
+  },
+  alertBox: {
+    backgroundColor: warnColor + 15,
+    flexDirection: "row",
+    gap: 15,
+    padding: 15,
+    borderRadius: 12
   }
 });
 
