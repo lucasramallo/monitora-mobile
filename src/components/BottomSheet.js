@@ -2,8 +2,8 @@ import React, { useState, useEffect, useRef } from 'react';
 import { StyleSheet, Switch, SafeAreaView, TextInput, View, TouchableOpacity, Image, Text, FlatList } from 'react-native';
 import { Feather } from '@expo/vector-icons';
 import DateTimePickerModal from "react-native-modal-datetime-picker";
-import { primaryColor } from '../../assets/colors';
-
+import { primaryColor, warnColor } from '../../assets/colors';
+import { useSelector } from 'react-redux';
 
 export default function BottomSheet({ onConfirm, hourItemToEditObject, datesList }) {
   const newItem = {
@@ -20,9 +20,29 @@ export default function BottomSheet({ onConfirm, hourItemToEditObject, datesList
   const [showDatePicker, setShowDatePicker] = useState(false);
   const [showStartTimePicker, setShowStartTimePicker] = useState(false);
   const [showEndTimePicker, setShowEndTimePicker] = useState(false);
+  const [limiteTimeExceeded, setLimiteTimeExceeded] = useState(false);
   const { id, description, date, workload, remote } = itemObject;
   const [startTime, endTime] = workload.split("/");
+  const { workloadList, weekWorkloadList } = useSelector((state) => state.workloadReducer);
+  const workloadSum = workloadList.reduce((soma, valor) => soma + valor, 0);
   
+  const calcInterval = (string) => {
+    let [initial, final] = string.split("/");
+    let [hi, mi] = initial.split(':').map(n => parseInt(n));
+    let [hf, mf] = final.split(':').map(n => parseInt(n));
+    let initialMinutes = hi * 60 + mi;
+    let finalMinutes = hf * 60 + mf;
+    
+    return finalMinutes - initialMinutes;
+  }
+
+  useEffect(() => {
+    const weekWorkloadSum = weekWorkloadList.reduce((soma, n) => n + soma, 0)
+    if(workload != "Início/Final" && (calcInterval(workload) + weekWorkloadSum) > 480){
+      setLimiteTimeExceeded(true)
+    }
+  }, [workload])
+
   const handleChange = (prop, value) => {
     setWarnEndTime(null);
     setWarnStartTime(null);
@@ -55,9 +75,11 @@ export default function BottomSheet({ onConfirm, hourItemToEditObject, datesList
     hour: "2-digit", 
     minute: "2-digit" 
   });
+
+  const totalWeeklyMinutes = 480;
+  const missingWorkload = totalWeeklyMinutes - workloadSum;
   
   return (
-   
     <View style={styles.view}>
       <Text style={styles.title}>
         {hourItemToEditObject ? "Editar Horário" : "Novo Horário"}
@@ -188,6 +210,13 @@ export default function BottomSheet({ onConfirm, hourItemToEditObject, datesList
             />
           </TouchableOpacity>
         </View>
+
+        {
+          limiteTimeExceeded && 
+          <Text style={{ color: 'red' }}>
+            Ao adicionar esse horário você excederá o limite semanal de 8 horas!
+          </Text>
+        }
         
         <View style={styles.switchView}>
           <Text>
@@ -216,7 +245,6 @@ export default function BottomSheet({ onConfirm, hourItemToEditObject, datesList
         </Text>
       </TouchableOpacity>
     </View>
-
   );
 }
 

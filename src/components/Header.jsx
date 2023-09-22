@@ -7,9 +7,8 @@ export default function Header() {
   const [userImageURL, setUserImageURL] = useState("https://github.com/lucasramallo/lucasramallo/assets/108425719/f846922d-276a-47c0-8994-d7e0d9251e6c");
   const [userName, setUserName] = useState("João Lucas");
   const [subject, setSubject] = useState("PDM");
-
   const { profilePicture } = useSelector((state) => state.userReducer);
-  console.log(profilePicture)
+
   return (
     <View style={styles.header}>
       {profilePicture ? <Image
