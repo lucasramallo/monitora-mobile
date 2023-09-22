@@ -55,16 +55,20 @@ export default function BottomSheet({ onConfirm, hourItemToEditObject, datesList
   };
   
   const handleConfirm = () => {
-    if(itemObject.date != "Data" && startTime != "Início" && endTime != "Final" && parseInt(endTime.split(":").join("")) > parseInt(startTime.split(":").join("")) && !datesList.includes(itemObject.date.toLocaleDateString())){
+    let existingItem = datesList.find(item => item.id != itemObject.id && item.date.toLocaleDateString() == itemObject.date.toLocaleDateString());
+    let initial = parseInt(startTime.split(":").join(""));
+    let final = parseInt(endTime.split(":").join(""));
+    
+    if(itemObject.date != "Data" && startTime != "Início" && endTime != "Final" && final > initial && !existingItem){
       onConfirm(itemObject);
     } else {
-      if(itemObject.date == "Data" || datesList.includes(itemObject.date.toLocaleDateString())){
+      if(itemObject.date == "Data" || existingItem){
         setWarnDate(true);
       }
       if(startTime == "Início"){
         setWarnStartTime(true);
       }
-      if(endTime == "Final" || parseInt(endTime.split(":").join("")) <= parseInt(startTime.split(":").join(""))){
+      if(endTime == "Final" || final <= initial){
         setWarnEndTime(true);
       }
     }
