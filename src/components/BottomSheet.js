@@ -23,8 +23,8 @@ export default function BottomSheet({ onConfirm, hourItemToEditObject, datesList
   const [limiteTimeExceeded, setLimiteTimeExceeded] = useState(false);
   const { id, description, date, workload, remote } = itemObject;
   const [startTime, endTime] = workload.split("/");
-  const { workloadList, weekWorkloadList } = useSelector((state) => state.workloadReducer);
-  const workloadSum = workloadList.reduce((soma, valor) => soma + valor, 0);
+  const { weekWorkloadList } = useSelector((state) => state.workloadReducer);
+  const weekWorkloadSum = weekWorkloadList.reduce((soma, valor) => soma + valor, 0);
   
   const calcInterval = (string) => {
     let [initial, final] = string.split("/");
@@ -37,8 +37,6 @@ export default function BottomSheet({ onConfirm, hourItemToEditObject, datesList
   }
 
   useEffect(() => {
-    const weekWorkloadSum = weekWorkloadList.reduce((soma, n) => n + soma, 0);
-    
       setLimiteTimeExceeded(workload != "Início/Final" && (calcInterval(workload) + weekWorkloadSum) > 480);
   }, [workload])
 
@@ -79,8 +77,6 @@ export default function BottomSheet({ onConfirm, hourItemToEditObject, datesList
     minute: "2-digit" 
   });
 
-  const totalWeeklyMinutes = 480;
-  const missingWorkload = totalWeeklyMinutes - workloadSum;
   
   return (
     <View style={styles.view}>
@@ -311,6 +307,7 @@ const styles = StyleSheet.create({
   alertBox: {
     backgroundColor: warnColor + 15,
     flexDirection: "row",
+    alignItems: "center",
     gap: 15,
     padding: 15,
     borderRadius: 12
