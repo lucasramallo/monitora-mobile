@@ -11,8 +11,8 @@ import Chart from '../../components/Chart';
 
 export default function HomeScreen({ navigation }) {
   const { currentUser } = useSelector((state) => state.userReducer); // Pega as informações do usuário corrente no estado global
-  const { workloadList, weekWorkloadList } = useSelector((state) => state.workloadReducer);
-  const workloadSum = workloadList.reduce((soma, valor) => soma + valor, 0);
+  const { weekWorkloadList } = useSelector((state) => state.workloadReducer);
+  const workloadSum = weekWorkloadList.reduce((soma, valor) => soma + valor, 0);
   
   return (
     <ScrollView>

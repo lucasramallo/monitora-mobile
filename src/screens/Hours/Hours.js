@@ -41,7 +41,7 @@ export default function Hours() {
     
   const navigation = useNavigation();
   const dispatch = useDispatch();
-  const { workloadList, weekWorkloadList } = useSelector((state) => state.workloadReducer);
+  const { weekWorkloadList } = useSelector((state) => state.workloadReducer);
   const modalizeRef = useRef(null);
   const [hourItemToEditObject, setHourItemToEditObject] = useState(null);
   
@@ -75,9 +75,6 @@ export default function Hours() {
       return 0;
     });
     dispatch(setweekWorkloadList(weekWorkloadListCopy));
-    
-    let workloadList = hoursList.map(item => calcInterval(item.workload));
-    dispatch(addWorkload(workloadList))
   }, [hoursList]);
   
   
@@ -198,7 +195,7 @@ export default function Hours() {
           
           <BottomSheet 
             hourItemToEditObject={hourItemToEditObject}
-            datesList={hoursList.map(item => item.date.toLocaleDateString())}
+            datesList={hoursList}
             onConfirm={newItem => handleAddHourItem(newItem)}
           />
           
