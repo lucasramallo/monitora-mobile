@@ -8,9 +8,9 @@ import { useSelector } from 'react-redux';
 export default function BottomSheet({ onConfirm, hourItemToEditObject, datesList }) {
   const newItem = {
     id: parseInt(Math.random()*128),
-    description: "",
-    date: "Data",
-    workload: "Início/Final",
+    description: null,
+    date: null,
+    workload: null,
     remote: false
   };
   const [itemObject, setItemObject] = useState(hourItemToEditObject || newItem);
@@ -22,7 +22,7 @@ export default function BottomSheet({ onConfirm, hourItemToEditObject, datesList
   const [showEndTimePicker, setShowEndTimePicker] = useState(false);
   const [limiteTimeExceeded, setLimiteTimeExceeded] = useState(false);
   const { id, description, date, workload, remote } = itemObject;
-  const [startTime, endTime] = workload.split("/");
+  const [startTime, endTime] = workload != null ? workload.split("/") : [null, null];
   const { weekWorkloadList } = useSelector((state) => state.workloadReducer);
   const weekWorkloadSum = weekWorkloadList.reduce((soma, valor) => soma + valor, 0);
   
@@ -37,7 +37,7 @@ export default function BottomSheet({ onConfirm, hourItemToEditObject, datesList
   }
 
   useEffect(() => {
-      setLimiteTimeExceeded(workload != "Início/Final" && (calcInterval(workload) + weekWorkloadSum) > 480);
+      setLimiteTimeExceeded(workload != null && (calcInterval(workload) + weekWorkloadSum) > 480);
   }, [workload])
 
   const handleChange = (prop, value) => {
@@ -52,22 +52,16 @@ export default function BottomSheet({ onConfirm, hourItemToEditObject, datesList
   };
   
   const handleConfirm = () => {
-    let existingItem = datesList.find(item => item.id != itemObject.id && item.date.toLocaleDateString() == itemObject.date.toLocaleDateString());
-    let initial = parseInt(startTime.split(":").join(""));
-    let final = parseInt(endTime.split(":").join(""));
+    let existingItem = datesList.find(item => item.id != itemObject.id && itemObject.date != null && item.date.toLocaleDateString() == itemObject.date.toLocaleDateString());
+    let initial = startTime && parseInt(startTime.split(":").join(""));
+    let final = endTime && parseInt(endTime.split(":").join(""));
     
-    if(itemObject.date != "Data" && startTime != "Início" && endTime != "Final" && final > initial && !existingItem){
+    if(itemObject.date && startTime && endTime && final > initial && !existingItem){
       onConfirm(itemObject);
     } else {
-      if(itemObject.date == "Data" || existingItem){
-        setWarnDate(true);
-      }
-      if(startTime == "Início"){
-        setWarnStartTime(true);
-      }
-      if(endTime == "Final" || final <= initial){
-        setWarnEndTime(true);
-      }
+      setWarnDate(itemObject.date == null || existingItem);
+      setWarnStartTime(startTime == null || startTime == "");
+      setWarnEndTime(endTime == null || endTime == "" || final <= initial);
     }
   }
   
@@ -120,8 +114,8 @@ export default function BottomSheet({ onConfirm, hourItemToEditObject, datesList
             setWarnDate(null);
           }}
           >
-          <Text style={date == "Data" ? styles.placeholderText : {}}>
-            {date == newItem.date ? newItem.date : date.toLocaleDateString("pt-BR")}
+          <Text style={date == null ? styles.placeholderText : {}}>
+            {date == null ? "Data" : date.toLocaleDateString("pt-BR")}
           </Text>
           <Feather 
             name="calendar" 
@@ -134,7 +128,7 @@ export default function BottomSheet({ onConfirm, hourItemToEditObject, datesList
           isVisible={showStartTimePicker}
           mode="time"
           onConfirm={(chosenStartTime) => {
-            handleChange("workload", formatTime(chosenStartTime) + "/" + endTime);
+            handleChange("workload", formatTime(chosenStartTime) + "/" + (endTime || ""));
             setShowStartTimePicker(false);
             setWarnDate(warnDate);
             setWarnEndTime(warnEndTime);
@@ -152,7 +146,7 @@ export default function BottomSheet({ onConfirm, hourItemToEditObject, datesList
           isVisible={showEndTimePicker}
           mode="time"
           onConfirm={(chosenEndTime) => {
-            handleChange("workload", startTime + "/" + formatTime(chosenEndTime));
+            handleChange("workload", (startTime || "") + "/" + formatTime(chosenEndTime));
             setShowEndTimePicker(false);
             setWarnDate(warnDate);
             setWarnStartTime(warnStartTime);
@@ -178,8 +172,8 @@ export default function BottomSheet({ onConfirm, hourItemToEditObject, datesList
               setWarnStartTime(null);
             }}
             >
-            <Text style={startTime == "Início" ? styles.placeholderText: {}}>
-              {startTime}
+            <Text style={startTime && {} || styles.placeholderText}>
+              {startTime || "Início"}
             </Text>
             <Feather 
               name="clock" 
@@ -199,8 +193,8 @@ export default function BottomSheet({ onConfirm, hourItemToEditObject, datesList
               setWarnEndTime(null);
             }}
             >
-            <Text style={endTime == "Final" ? styles.placeholderText: {}}>
-              {endTime}
+            <Text style={endTime && {} || styles.placeholderText}>
+              {endTime || "Final"}
             </Text>
             <Feather 
               name="clock" 
