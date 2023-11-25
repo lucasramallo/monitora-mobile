@@ -13,28 +13,29 @@ import Header from '../../components/Header.jsx';
 import { GestureHandlerRootView } from 'react-native-gesture-handler';
 
 export default function Hours() {
-  const [currentMonth, setCurrentMonth] = useState("Julho");
+  const actualDate = new Date();
+  const [currentMonth, setCurrentMonth] = useState(actualDate.toLocaleString('default', { month: 'long' }));
   const thereIsPreviousMonth = true;
   const thereIsLaterMonth = false;
   const [hoursList, setHoursList] = useState([
     { 
       id: 57,
       workload: "07:00/08:00", 
-      date: new Date(2023, 8, 5),
+      date: new Date(actualDate.getFullYear(), actualDate.getMonth(), actualDate.getDate()-1),
       description: "1, teste e teste",
       remote: false
     },
     { 
       id: 81,
       workload: "07:00/08:30", 
-      date: new Date(2023, 8, 6),
+      date: new Date(actualDate.getFullYear(), actualDate.getMonth(), actualDate.getDate()),
       description: "2, teste e teste",
       remote: true
     },
     { 
       id: 123,
       workload: "07:00/12:00", 
-      date: new Date(2023, 8, 7),
+      date: new Date(actualDate.getFullYear(), actualDate.getMonth(), actualDate.getDate()+1),
       description: "3, teste e teste",
       remote: false
     },]);
@@ -102,7 +103,7 @@ export default function Hours() {
         </Text>
         
         <Text style={styles.monthTitle}>
-          {"Mês de " + currentMonth}
+          {"Mês de " + currentMonth[0].toUpperCase() + currentMonth.substring(1)}
         </Text>
         
         <View style={styles.topButtonsView}>
