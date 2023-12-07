@@ -173,7 +173,7 @@ export default function Hours() {
         </View>
         
         <View>
-          <FlatList 
+          {hoursList.length ? <FlatList 
             data={hoursList}
             renderItem={({item}) => (
               <HorarioItem item={item} onEditPress={() => {
@@ -185,7 +185,10 @@ export default function Hours() {
                 }}
               />)
             }
-          />
+          /> : 
+          <View style={styles.emptyWarnBox}>
+              <Text style={styles.emptyWarnText}>Nenhum horário adicionado.</Text>
+          </View>}
         </View>
         
         <Modalize 
@@ -276,4 +279,15 @@ const styles = StyleSheet.create({
     color: '#8C8C8C',
     fontSize: 14
   },
+  emptyWarnBox: {
+    width: "100%",
+    alignItems: "center",
+    justifyContent: "center",
+    padding: 25
+  },
+  emptyWarnText: {
+    fontSize: 16,
+    color: "#949BA5",
+    fontFamily: 'Inter_400Regular'
+  }
 });
