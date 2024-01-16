@@ -1,8 +1,8 @@
 import { createSlice } from "@reduxjs/toolkit";
 
 const initialState = {
-    workloadList: [30, 60, 240],
-    weekWorkloadList: [0, 60, 90, 300, 0]
+    workloadList: [0, 0, 0],
+    weekWorkloadList: [0, 0, 0, 0, 0]
 };
 
 const workloadSlice = createSlice({
