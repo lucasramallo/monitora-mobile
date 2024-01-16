@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { Image, View, Text, StyleSheet, TouchableOpacity, ImageBackground } from 'react-native';
+import { Image, View, Text, StyleSheet, TouchableOpacity, ImageBackground, ScrollView } from 'react-native';
 import * as ImagePicker from 'expo-image-picker';
 import { AntDesign } from '@expo/vector-icons';
 import defaultProfileImage from '../../../assets/img/default-profile-image.png';
@@ -32,49 +32,51 @@ export default function Profile({ navigation }) {
   };
 
   return (
-    <ImageBackground
-      source={Background}
-      resizeMode="cover"
-      style={styles.container}
-    >
-      <View style={styles.header}>
-        <TouchableOpacity 
-          onPress={() => navigation.goBack()}
-          style={styles.back}
-        >
-          <Ionicons 
-            name="chevron-back" 
-            size={18} 
-            color="black"
-          />
-        </TouchableOpacity>
+    <ScrollView>
+      <ImageBackground
+        source={Background}
+        resizeMode="cover"
+        style={styles.container}
+      >
+        <View style={styles.header}>
+          <TouchableOpacity 
+            onPress={() => navigation.goBack()}
+            style={styles.back}
+          >
+            <Ionicons 
+              name="chevron-back" 
+              size={18} 
+              color="black"
+            />
+          </TouchableOpacity>
 
-        <Text style={styles.headerText} >Perfil</Text>
+          <Text style={styles.headerText} >Perfil</Text>
 
-        <TouchableOpacity 
-          onPress={() => {}}
-          style={styles.settingsButton}
-        >
-          <SimpleLineIcons name="options-vertical" size={16} color="black"/>
-        </TouchableOpacity>
-      </View>
-      
-      <View>
-        <View style={styles.pickImageContainer}>
-          {profilePicture ? <Image source={{ uri: profilePicture }} style={styles.image} /> : <Image source={defaultProfileImage} style={styles.image} />}
-          <TouchableOpacity onPress={pickImage} style={styles.buttonPick}>
-            <AntDesign name="adduser" size={24} color="black" />
-            {profilePicture ? <Text style={styles.buttonPickText}>Editar foto</Text> : <Text style={styles.buttonPickText}>Adicionar</Text>}
+          <TouchableOpacity 
+            onPress={() => {}}
+            style={styles.settingsButton}
+          >
+            <SimpleLineIcons name="options-vertical" size={16} color="black"/>
           </TouchableOpacity>
         </View>
-      </View>
-      <View style={{width: '100%'}}>
-        <Text style={styles.infoText}>Informações</Text>
-        <ProfileButton text={"João Lucas"} AntDesignIcon={"user"}/>
-        <ProfileButton text={"PDM"} AntDesignIcon={"book"}/>
-        <ProfileButton text={"202030600020"} AntDesignIcon={"idcard"}/>
-      </View>
-    </ImageBackground>
+        
+        <View>
+          <View style={styles.pickImageContainer}>
+            {profilePicture ? <Image source={{ uri: profilePicture }} style={styles.image} /> : <Image source={defaultProfileImage} style={styles.image} />}
+            <TouchableOpacity onPress={pickImage} style={styles.buttonPick}>
+              <AntDesign name="adduser" size={24} color="black" />
+              {profilePicture ? <Text style={styles.buttonPickText}>Editar foto</Text> : <Text style={styles.buttonPickText}>Adicionar</Text>}
+            </TouchableOpacity>
+          </View>
+        </View>
+        <View style={styles.infoContainer}>
+          <Text style={styles.infoText}>Informações</Text>
+          <ProfileButton text={"João Lucas"} AntDesignIcon={"user"}/>
+          <ProfileButton text={"PDM"} AntDesignIcon={"book"}/>
+          <ProfileButton text={"202030600020"} AntDesignIcon={"idcard"}/>
+        </View>
+      </ImageBackground>
+    </ScrollView>
   );
 }
 
@@ -113,7 +115,7 @@ const styles = StyleSheet.create({
   },
   pickImageContainer: {
     alignItems: 'center',
-    marginTop: 70,
+    marginTop: '15%',
   },
   image: {
     borderRadius: 100,
@@ -144,5 +146,9 @@ const styles = StyleSheet.create({
     fontSize: 17,
     color: primaryColor,
     marginTop: 30,
+  },
+  infoContainer: {
+    width: '100%', 
+    marginBottom: 40
   }
 })

@@ -21,6 +21,7 @@ export default function BottomSheet({ onConfirm, hourItemToEditObject, datesList
   const [showStartTimePicker, setShowStartTimePicker] = useState(false);
   const [showEndTimePicker, setShowEndTimePicker] = useState(false);
   const [limiteTimeExceeded, setLimiteTimeExceeded] = useState(false);
+
   const { id, description, date, workload, remote } = itemObject;
   const [startTime, endTime] = workload != null ? workload.split("/") : [null, null];
   const { weekWorkloadList } = useSelector((state) => state.workloadReducer);
@@ -73,7 +74,6 @@ export default function BottomSheet({ onConfirm, hourItemToEditObject, datesList
     minute: "2-digit" 
   });
 
-  
   return (
     <View style={styles.view}>
       <Text style={styles.title}>

@@ -16,29 +16,29 @@ export default function HomeScreen({ navigation }) {
   
   return (
     <ScrollView>
-    <SafeAreaView style={styles.container}>
+      <SafeAreaView style={styles.container}>
 
-      <Header />
-      
-      <View style={styles.myHoursButtonContainer}>
-        <TouchableOpacity 
-          style={styles.myHoursButton}
-          onPress={() => navigation.navigate("Hours")}>
-          <Text style={styles.myHoursButtonText}>Meus Horários</Text>
-          <View style={styles.AvatarImageBorder}>
-            <Image
-              style={styles.AvatarImage}
-              source={AvatarImage}
-            />
-          </View>
-        </TouchableOpacity>
-      </View>
+        <Header />
+        
+        <View style={styles.myHoursButtonContainer}>
+          <TouchableOpacity 
+            style={styles.myHoursButton}
+            onPress={() => navigation.navigate("Hours")}>
+            <Text style={styles.myHoursButtonText}>Meus Horários</Text>
+            <View style={styles.AvatarImageBorder}>
+              <Image
+                style={styles.AvatarImage}
+                source={AvatarImage}
+              />
+            </View>
+          </TouchableOpacity>
+        </View>
 
-      <WorkloadDisplay workload={workloadSum}/>
-      <ProgressBarView progressValue={workloadSum/(8*60)}/>
-      <Chart dataList={weekWorkloadList} />
+        <WorkloadDisplay workload={workloadSum}/>
+        <ProgressBarView progressValue={workloadSum/(8*60)}/>
+        <Chart dataList={weekWorkloadList} />
 
-    </SafeAreaView>
+      </SafeAreaView>
     </ScrollView>
   );
 }
