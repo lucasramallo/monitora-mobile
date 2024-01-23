@@ -91,7 +91,7 @@ export default function Hours() {
     }
   };
   
-  
+
   return (
     <GestureHandlerRootView style={{flex: 1}}>
       <SafeAreaView style={styles.container}>
