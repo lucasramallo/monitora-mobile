@@ -21,7 +21,8 @@ export default function BottomSheet({ onConfirm, hourItemToEditObject, datesList
   const [showStartTimePicker, setShowStartTimePicker] = useState(false);
   const [showEndTimePicker, setShowEndTimePicker] = useState(false);
   const [limiteTimeExceeded, setLimiteTimeExceeded] = useState(false);
-  const { id, description, date, workload, remote } = itemObject;
+
+  const { id, description, date, workload, remote } = itemObject || {};
   const [startTime, endTime] = workload != null ? workload.split("/") : [null, null];
   const { weekWorkloadList } = useSelector((state) => state.workloadReducer);
   const weekWorkloadSum = weekWorkloadList.reduce((soma, valor) => soma + valor, 0);
@@ -36,9 +37,11 @@ export default function BottomSheet({ onConfirm, hourItemToEditObject, datesList
     return finalMinutes - initialMinutes;
   }
 
+  const maximumMinutesPerWeek = 480;
+
   useEffect(() => {
     if(!hourItemToEditObject){
-      setLimiteTimeExceeded(workload != null && (calcInterval(workload) + weekWorkloadSum) > 480);
+      setLimiteTimeExceeded(workload != null && (calcInterval(workload) + weekWorkloadSum) > maximumMinutesPerWeek);
     }
   }, [workload])
 
@@ -73,7 +76,6 @@ export default function BottomSheet({ onConfirm, hourItemToEditObject, datesList
     minute: "2-digit" 
   });
 
-  
   return (
     <View style={styles.view}>
       <Text style={styles.title}>
